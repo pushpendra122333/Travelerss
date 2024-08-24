@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">Traveler</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="filter_options">
+        <item>Default</item>
+        <item>Sort by Price: Low to High</item>
+        <item>Sort by Price: High to Low</item>
+        <item>Filter by Passenger Capacity: 2+</item>
+        <item>Filter by Passenger Capacity: 4+</item>
+        <item>Filter by Passenger Capacity: 6+</item>
+    </string-array>
+
+    <string name="terms_and_conditions">
+        <![CDATA[
+        1. **Acceptance of Terms**
+
+        By using our car rental application (the "App"), you agree to comply with and be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the App.
+
+        2. **Registration and Account**
+
+        - **Eligibility:** You must be at least 18 years old and legally able to enter into contracts to use this App.
+        - **Account Security:** You are responsible for maintaining the confidentiality of your account and password. You agree to notify us immediately of any unauthorized use of your account.
+
+        3. **Vehicle Booking**
+
+        - **Booking Requirements:** When booking a vehicle, you must provide accurate and complete information. All bookings are subject to availability.
+        - **Payment:** Payment must be made in full at the time of booking. Prices are subject to change without notice.
+        - **Cancellation and Refunds:** Refer to our cancellation policy for details on how to cancel a booking and any applicable refunds.
+
+        4. **Use of Vehicles**
+
+        - **Driver’s License:** You must possess a valid driver’s license that is appropriate for the vehicle you are renting.
+        - **Vehicle Use:** Vehicles must be used in accordance with all applicable laws and regulations. The renter is responsible for any fines or penalties incurred during the rental period.
+        - **Prohibited Uses:** Vehicles may not be used for illegal activities, off-road driving, or by unauthorized drivers.
+
+        5. **Insurance and Liability**
+
+        - **Insurance:** Insurance coverage for rented vehicles is provided as specified in the booking details. It is your responsibility to understand the coverage and any exclusions.
+        - **Liability:** You are responsible for any damage to the vehicle that occurs during the rental period, excluding reasonable wear and tear. You may be charged for repairs, loss of use, and any other associated costs.
+
+        6. **User Conduct**
+
+        - **Prohibited Activities:** You agree not to engage in any activity that interferes with or disrupts the App or the services provided.
+        - **Content:** You are responsible for any content you submit through the App and must ensure it complies with applicable laws and regulations.
+
+        7. **Termination**
+
+        We reserve the right to suspend or terminate your account and access to the App if you violate these Terms and Conditions or if we deem it necessary.
+
+        8. **Privacy Policy**
+
+        Your use of the App is governed by our Privacy Policy, which outlines how we collect, use, and protect your personal information.
+
+        9. **Changes to Terms**
+
+        We may update these Terms and Conditions from time to time. Any changes will be effective when posted on the App. Your continued use of the App after changes are made constitutes your acceptance of the new terms.
+
+        10. **Governing Law**
+
+        These Terms and Conditions are governed by and construed in accordance with the laws of [Your Jurisdiction]. Any disputes arising under or in connection with these terms shall be subject to the exclusive jurisdiction of the courts of [Your Jurisdiction].
+
+        11. **Contact Us**
+
+        If you have any questions or concerns about these Terms and Conditions, please contact us at [Your Contact Information].
+        ]]>
+    </string>
+</resources>

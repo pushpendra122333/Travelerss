@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".About_Us">
+
+
+    <TextView
+        android:id="@+id/about2"
+        android:layout_width="300dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/textviewdesign"
+        android:text="Terms Condition"
+        android:paddingLeft="5dp"
+        android:textColor="@color/black"
+
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/about1"
+        android:layout_width="300dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/textviewdesign"
+        android:paddingLeft="5dp"
+        android:layout_below="@+id/about2"
+        android:text="We Are Renting Application"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/about3"
+        android:layout_width="300dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/about1"
+        android:background="@drawable/textviewdesign"
+        android:paddingLeft="5dp"
+        android:text="Explore The World"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/about4"
+        android:layout_width="300dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/about3"
+        android:background="@drawable/textviewdesign"
+        android:paddingLeft="5dp"
+        android:text="The Application\n Since 2024"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>

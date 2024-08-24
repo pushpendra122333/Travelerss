@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Customize background color -->
+        <item name="android:background">@drawable/custom_dialog_background</item>
+        <!-- Customize text color -->
+        <item name="android:textColorPrimary">@color/your_button_text_color</item> <!-- Dark gray text color for better readability -->
+        <item name="android:padding">16dp</item> <!-- Padding -->
+    </style>
+
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_below="@+id/LOGO"
+    android:orientation="vertical"
+    android:background="@drawable/edittextdesign"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/vehicle_name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="vehicle"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/days1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Days"/>
+
+    <TextView
+        android:id="@+id/total_amount1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total_Amount"/>
+
+    <TextView
+        android:id="@+id/booking_time1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="booking_time"/>
+
+    <TextView
+        android:id="@+id/returned_status1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="returned_status"/>
+</LinearLayout>
