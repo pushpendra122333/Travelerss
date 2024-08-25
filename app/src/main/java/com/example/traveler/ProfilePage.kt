@@ -61,7 +61,6 @@ class ProfilePage : Fragment() {
         }
 
         setupSocialMediaLinks(view)
-
         val changeImageButton: TextView = view.findViewById(R.id.changeImageButton)
         changeImageButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -80,6 +79,10 @@ class ProfilePage : Fragment() {
                 val imageUri: Uri? = result.data?.data
                 if (imageUri != null) {
                     profileImageView.setImageURI(imageUri)
+                    profileImageView.post {
+                        // Force the image to update
+                        profileImageView.setImageURI(imageUri)
+                    }
                     saveProfileImageUri(imageUri)
                 } else {
                     Log.e("ProfilePage", "No image URI returned.")
@@ -120,6 +123,10 @@ class ProfilePage : Fragment() {
         val savedImageUri = sharedPref.getString("profile_image_uri", null)
         if (savedImageUri != null) {
             profileImageView.setImageURI(Uri.parse(savedImageUri))
+            profileImageView.post {
+                // Force the image to update
+                profileImageView.setImageURI(Uri.parse(savedImageUri))
+            }
         } else {
             profileImageView.setImageResource(R.drawable.loading) // Set a default image
         }

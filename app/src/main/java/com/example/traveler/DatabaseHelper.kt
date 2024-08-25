@@ -57,7 +57,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < 3) {
+        if (oldVersion < 4) {
             db?.execSQL("ALTER TABLE $TABLE_USERS ADD COLUMN $COLUMN_BANNED INTEGER DEFAULT 0")
             db?.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_BOOKINGS ("
                     + "$COLUMN_BOOKING_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
