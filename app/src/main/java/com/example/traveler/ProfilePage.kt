@@ -45,9 +45,17 @@ class ProfilePage : Fragment() {
         val emailTextView: TextView = view.findViewById(R.id.profileemail)
         val nameTextView: TextView = view.findViewById(R.id.profilename)
         val aboutUs: TextView = view.findViewById(R.id.aboutus)
+        val cotactUs: TextView = view.findViewById(R.id.Contactus)
 
         aboutUs.setOnClickListener{
-            val i =Intent(activity,About_Us::class.java)
+            val  i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("https://alike-jam-bee.notion.site/About-Us-5fddc493a6b145c18465edf12b6ff78d?pvs=4")
+            startActivity(i)
+        }
+
+        cotactUs.setOnClickListener{
+            val  i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("https://alike-jam-bee.notion.site/Contact-Us-87fbd91c7bd2474d88049d7f71bfc35f?pvs=4")
             startActivity(i)
         }
         profileImageView = view.findViewById(R.id.profileImageView)
