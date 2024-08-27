@@ -92,6 +92,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="#ffffff"
+            android:fontFamily="@font/mate"
             android:background="@drawable/login_button"
             android:backgroundTint="@color/green"
             android:textSize="20dp"

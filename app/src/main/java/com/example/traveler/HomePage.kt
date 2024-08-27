@@ -2,12 +2,15 @@ package com.example.traveler
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -23,10 +26,12 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 
 class HomePage : Fragment() {
 
@@ -126,10 +131,12 @@ class HomePage : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_feedback -> {
                 // Handle feedback action
+
                val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse("https://alike-jam-bee.notion.site/FEEDBACK-2ddf172a2229471aaf839df4c2968520?pvs=4")
                 startActivity(i)
@@ -137,6 +144,7 @@ class HomePage : Fragment() {
             }
             R.id.action_help -> {
                 // Handle help action
+
                 val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:ps3389401@gmail.com")
                 }
