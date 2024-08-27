@@ -137,7 +137,11 @@ class HomePage : Fragment() {
             }
             R.id.action_help -> {
                 // Handle help action
-                Toast.makeText(context, "Help clicked", Toast.LENGTH_SHORT).show()
+                val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("mailto:ps3389401@gmail.com")
+                }
+                startActivity(Intent.createChooser(emailIntent, "Send email"))
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
