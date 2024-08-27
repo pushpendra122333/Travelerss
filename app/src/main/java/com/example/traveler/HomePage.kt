@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -14,6 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+
+import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class HomePage : Fragment() {
 
@@ -21,6 +30,7 @@ class HomePage : Fragment() {
     private lateinit var carAdapter: CarAdapter
     private lateinit var searchBar: EditText
     private lateinit var filterSpinner: Spinner
+    private lateinit var toolbar: Toolbar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +46,11 @@ class HomePage : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
         searchBar = view.findViewById(R.id.search_bar)
         filterSpinner = view.findViewById(R.id.filter_spinner)
+        toolbar = view.findViewById(R.id.toolbar)
+
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(true)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
 
 
@@ -89,6 +104,40 @@ class HomePage : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        val feedbackItem = menu.findItem(R.id.action_feedback)
+        val helpItem = menu.findItem(R.id.action_help)
+
+        // Use a custom method to apply the text color
+        feedbackItem.actionView?.let { actionView ->
+            val titleTextView = actionView.findViewById<TextView>(android.R.id.title)
+            titleTextView?.setTextColor(ContextCompat.getColor(requireContext(), R.color.custom_menu_item_color))
+        }
+
+        helpItem.actionView?.let { actionView ->
+            val titleTextView = actionView.findViewById<TextView>(android.R.id.title)
+            titleTextView?.setTextColor(ContextCompat.getColor(requireContext(), R.color.custom_menu_item_color))
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_feedback -> {
+                // Handle feedback action
+                Toast.makeText(context, "Feedback clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_help -> {
+                // Handle help action
+                Toast.makeText(context, "Help clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

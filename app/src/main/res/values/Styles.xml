@@ -7,5 +7,7 @@
         <item name="android:textColorPrimary">@color/your_button_text_color</item> <!-- Dark gray text color for better readability -->
         <item name="android:padding">16dp</item> <!-- Padding -->
     </style>
-
+    <style name="CustomMenuItemTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#FF5722</item> <!-- Replace with your desired color -->
+    </style>
 </resources>
