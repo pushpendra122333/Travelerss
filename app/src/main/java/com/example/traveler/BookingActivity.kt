@@ -1,5 +1,6 @@
 package com.example.traveler
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -72,35 +73,53 @@ class BookingActivity : AppCompatActivity() {
                 val perDayPrice = car.price.removePrefix("₹ ").removeSuffix(" / Per Day").replace(",", "").toInt()
                 val totalPrice = days * perDayPrice
 
-                val bookingTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-                val userId = getCurrentUserId()
+                // Redirect to PaymentActivity instead of directly saving the booking
+                val intent = Intent(this, PaymentActivity::class.java)
+                intent.putExtra("carName", car.name)
+                intent.putExtra("days", days)
+                intent.putExtra("totalAmount", totalPrice)
+                intent.putExtra("userId", getCurrentUserId())
+                intent.putExtra("bookingTime", SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()))
 
-                // Debug log for userId
-                Log.d("BookingActivity", "User ID: $userId")
-
-                // Save booking to database
-                val result = dbHelper.insertBooking(car.name, days, "₹ $totalPrice", userId, bookingTime, 0)
-
-                // Debug log for result
-                Log.d("BookingActivity", "Insert result: $result")
-
-                if (result != -1L) {
-                    // Booking was successfully inserted
-                    totalAmountTextView.text = "Total Amount: ₹ $totalPrice"
-                    Toast.makeText(this, "Booking successfully placed!", Toast.LENGTH_SHORT).show()
-                    // Navigate to OrderFragment or finish activity
-                    // For example: finish()
-                } else {
-                    // Failed to insert booking
-                    Toast.makeText(this, "Failed to place booking. Please try again.", Toast.LENGTH_SHORT).show()
-                }
+                startActivityForResult(intent, PAYMENT_REQUEST_CODE)
             } else {
                 totalAmountTextView.text = "Please enter a valid number of days"
             }
         }
 
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PAYMENT_REQUEST_CODE && resultCode == RESULT_OK) {
+            val paymentStatus = data?.getStringExtra("paymentStatus")
+            val paymentMethod = data?.getStringExtra("paymentMethod")
+            val carName = data?.getStringExtra("carName")
+            val days = data?.getIntExtra("days", 0) ?: 0
+            val totalPrice = data?.getIntExtra("totalAmount", 0) ?: 0
+            val userId = data?.getIntExtra("userId", 0) ?: 0
+            val bookingTime = data?.getStringExtra("bookingTime") ?: ""
 
+            if (paymentStatus == "success" && days > 0) {
+                // Save the booking to the database
+                val result = dbHelper.insertBooking(carName ?: "", days, "₹ $totalPrice", userId, bookingTime, 0)
+
+                if (result != -1L) {
+                    totalAmountTextView.text = "Total Amount: ₹ $totalPrice"
+                    Toast.makeText(this, "Booking successfully placed!", Toast.LENGTH_SHORT).show()
+                    // Navigate to OrderFragment or finish activity
+                    // For example: finish()
+                } else {
+                    Toast.makeText(this, "Failed to place booking. Please try again.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Payment failed or was canceled", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    companion object {
+        private const val PAYMENT_REQUEST_CODE = 1001
+    }
 
     private fun parsePrice(price: String): Int {
         return price.replace("₹ ", "").replace("/ Per Day", "").replace(",", "").toInt()

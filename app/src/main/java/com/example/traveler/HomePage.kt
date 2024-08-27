@@ -1,9 +1,13 @@
 package com.example.traveler
 
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -107,29 +111,28 @@ class HomePage : Fragment() {
         }
 
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_home_page, menu)
 
         val feedbackItem = menu.findItem(R.id.action_feedback)
         val helpItem = menu.findItem(R.id.action_help)
 
-        // Use a custom method to apply the text color
-        feedbackItem.actionView?.let { actionView ->
-            val titleTextView = actionView.findViewById<TextView>(android.R.id.title)
-            titleTextView?.setTextColor(ContextCompat.getColor(requireContext(), R.color.custom_menu_item_color))
-        }
-
-        helpItem.actionView?.let { actionView ->
-            val titleTextView = actionView.findViewById<TextView>(android.R.id.title)
-            titleTextView?.setTextColor(ContextCompat.getColor(requireContext(), R.color.custom_menu_item_color))
-        }
+        // Set the custom color for each menu item
+        setMenuItemTextColor(feedbackItem, R.color.menu_item_text_color)
+        setMenuItemTextColor(helpItem, R.color.menu_item_text_color)
 
         super.onCreateOptionsMenu(menu, inflater)
+
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_feedback -> {
                 // Handle feedback action
-                Toast.makeText(context, "Feedback clicked", Toast.LENGTH_SHORT).show()
+               val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse("https://alike-jam-bee.notion.site/FEEDBACK-2ddf172a2229471aaf839df4c2968520?pvs=4")
+                startActivity(i)
                 true
             }
             R.id.action_help -> {
@@ -140,4 +143,15 @@ class HomePage : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+    private fun setMenuItemTextColor(menuItem: MenuItem, colorResId: Int) {
+        val spanString = SpannableString(menuItem.title)
+        spanString.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(requireContext(), colorResId)),
+            0,
+            spanString.length,
+            0
+        )
+        menuItem.title = spanString
+    }
+
 }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity">
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+    <TextView
+        android:id="@+id/car_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/total_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/payment_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Payment Method"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/upi_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pay with UPI"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/qr_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pay with QR Code"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/cod_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cash on Delivery"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:id="@+id/upi_number_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp"/>
+
+    <ImageView
+        android:id="@+id/qr_code_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/pay_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Payment"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        android:background="?attr/colorPrimary"
+        android:textColor="@android:color/white"
+        android:padding="16dp"/>
+
+</LinearLayout>
+</ScrollView>

@@ -7,16 +7,7 @@
     android:orientation="vertical"
     tools:context=".WelcomePage">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Traveler"
-        android:padding="2dp"
-        android:paddingStart="10dp"
-        android:textStyle="bold"
-        android:background="@color/green"
-        android:textColor="@color/black"
-        android:textSize="30dp"/>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/v1"
         android:layout_width="match_parent"
