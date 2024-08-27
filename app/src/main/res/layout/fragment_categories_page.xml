@@ -4,10 +4,21 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_container"
     tools:context=".CategoriesPage">
+    <TextView
+        android:id="@+id/selected_category_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:text="Select a category"/>
+
 
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="60dp"
     android:id="@+id/recycler_view_category" />
+
 
 </FrameLayout>

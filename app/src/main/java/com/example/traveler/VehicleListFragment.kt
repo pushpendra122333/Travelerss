@@ -28,7 +28,7 @@ class VehicleListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_view_vehicle_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val category = arguments?.getString("category")
+      val  category = arguments?.getString("category")
 
         // Filter the car list based on the selected category
         val carList = getCarListByCategory(category)

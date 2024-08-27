@@ -39,14 +39,15 @@ class PaymentActivity : AppCompatActivity() {
         codButton = findViewById(R.id.cod_button)
         qrCodeImage = findViewById(R.id.qr_code_image)
 
-        val carName = intent.getStringExtra("carName")
+        val carNames = intent.getStringExtra("carName")
         totalAmount = intent.getIntExtra("totalAmount", 0)
 
         // Set the car name and total amount in the UI
-        carNameTextView.text = carName
+        carNameTextView.text = carNames
         totalAmountTextView.text = "Total Amount: ₹ $totalAmount"
 
         // Retrieve data from the intent
+        carName = intent.getStringExtra("carName")
         totalAmount = intent.getIntExtra("totalAmount", 0)
         days = intent.getIntExtra("days", 0)
         userId = intent.getIntExtra("userId", 0)

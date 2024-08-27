@@ -162,7 +162,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 val bookingTime = cursor.getString(cursor.getColumnIndex(COLUMN_BOOKING_TIME))
                 val returned = cursor.getInt(cursor.getColumnIndex(COLUMN_RETURNED)) == 1
 
-                bookings.add(Booking(vehicleName, days, totalAmount, bookingTime, returned))
+                bookings.add(Booking(vehicleName, days, totalAmount, bookingTime, returned, ))
             } while (cursor.moveToNext())
         } else {
             Log.d("DatabaseHelper", "No bookings found for user ID: $userId")
@@ -248,6 +248,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
         return banned
     }
+
+
 
     // Function to check admin credentials
     fun checkAdmin(email: String, password: String): Boolean {

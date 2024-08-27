@@ -28,6 +28,8 @@ class OrderPage : Fragment() {
         dbHelper = DatabaseHelper(requireContext())
         dbHelper = DatabaseHelper(requireContext())
 
+
+
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recycler_view_spacing)
         orderRecyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
 

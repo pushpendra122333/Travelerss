@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,9 @@ class CategoriesPage : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var selectedCategoryText: TextView
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +29,8 @@ class CategoriesPage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.recycler_view_category)
+        selectedCategoryText = view.findViewById(R.id.selected_category_text)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
 
 
@@ -36,6 +43,11 @@ class CategoriesPage : Fragment() {
 
         // Set up the adapter and handle clicks
         categoryAdapter = CategoryAdapter(categories) { category ->
+
+            selectedCategoryText.text = "Selected category: $category"
+
+
+
             // Navigate to the VehicleListFragment with the selected category
             val fragment = VehicleListFragment()
             val bundle = Bundle()

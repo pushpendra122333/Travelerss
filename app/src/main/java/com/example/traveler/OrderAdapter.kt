@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -17,6 +18,7 @@ class OrderAdapter(private val bookingss: List<Booking>) :
         val totalAmount2: TextView = itemView.findViewById(R.id.total_amount1)
         val bookingTime2: TextView = itemView.findViewById(R.id.booking_time1)
         val returnedStatus2: TextView = itemView.findViewById(R.id.returned_status1)
+        val cancelButton: Button = itemView.findViewById(R.id.button_cancel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {

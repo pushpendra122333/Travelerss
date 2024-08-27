@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/category_name"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:layout_marginTop="10dp"
-    android:textColor="@color/black"
-    android:background="@drawable/gradient_background"
-    android:textSize="18sp"
+    android:orientation="vertical"
     android:text="Category Name">
+    <TextView
+        android:id="@+id/category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Category Name"
+        android:textSize="18sp"
+        android:background="@drawable/gradient_background"
+        />
 
-
-</TextView>
+</LinearLayout>
