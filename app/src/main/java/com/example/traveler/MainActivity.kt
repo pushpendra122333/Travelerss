@@ -26,11 +26,9 @@ class MainActivity : AppCompatActivity() {
         videoView.setOnCompletionListener {
             videoView.start() // Restart the video when it reaches the end
         }
-
-        val getStartedButton: TextView = findViewById(R.id.button)
-        getStartedButton.setOnClickListener {
-            val intent = Intent(this, loginpage::class.java)
-            startActivity(intent)
-        }
+videoView.setOnClickListener{
+    val intent = Intent(this, loginpage::class.java)
+    startActivity(intent)
+}
     }
 }
