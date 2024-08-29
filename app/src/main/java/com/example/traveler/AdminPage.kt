@@ -40,7 +40,7 @@ class AdminPage : AppCompatActivity() {
             userListContainer.removeAllViews()
 
             do {
-                val id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID))
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ID))
                 val name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NAME))
                 val email = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_EMAIL))
                 val banned = dbHelper.isUserBanned(email) // Check if the user is banned

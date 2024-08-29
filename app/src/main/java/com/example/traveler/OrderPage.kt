@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
+import android.widget.Toast
 
 class OrderPage : Fragment() {
 
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderAdapter
     private lateinit var dbHelper: DatabaseHelper
-
+    private lateinit var loginManager: LoginManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,16 +28,20 @@ class OrderPage : Fragment() {
         orderRecyclerView = view.findViewById(R.id.recycler_view_order)
         dbHelper = DatabaseHelper(requireContext())
         dbHelper = DatabaseHelper(requireContext())
-
+        loginManager = LoginManager(requireContext())
 
 
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recycler_view_spacing)
         orderRecyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
 
+
         val userId = getCurrentUserId()
         if (userId != -1) {
             val bookings = dbHelper.getAllBookingsForUser(userId)
-            orderAdapter = OrderAdapter(bookings)
+            orderAdapter = OrderAdapter(bookings){ bookingId ->
+                // Handle cancel click
+                cancelBooking(bookingId)
+            }
             orderRecyclerView.adapter = orderAdapter
             orderRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         } else {
@@ -51,7 +56,30 @@ class OrderPage : Fragment() {
     }
 
     private fun getCurrentUserId(): Int {
-        val sharedPref = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        return sharedPref.getInt("user_id", 1) // Default to -1 if no user is logged in
+        val loggedInEmail = loginManager.getLoggedInEmail()
+        return if (loggedInEmail != null) {
+            dbHelper.getUserIdByEmail(loggedInEmail) // Fetch the user ID using the email
+        } else {
+            -1 // No user is logged in
+        }
     }
+    private fun cancelBooking(bookingId: Int) {
+        val result = dbHelper.cancelBooking(bookingId)
+        if (result) {
+            // Refresh the RecyclerView
+            val userId = getCurrentUserId()
+            if (userId != -1) {
+                val bookings = dbHelper.getAllBookingsForUser(userId)
+                orderAdapter = OrderAdapter(bookings) { id ->
+                    cancelBooking(id)
+                }
+                orderRecyclerView.adapter = orderAdapter
+            }
+            Toast.makeText(requireContext(), "Booking canceled successfully", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "Failed to cancel booking", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 }

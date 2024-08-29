@@ -8,15 +8,16 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
+@Suppress("UNREACHABLE_CODE")
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "users.db"
-        private const val DATABASE_VERSION = 4 // Increment version for schema update
+        private const val DATABASE_VERSION = 6 // Increment version for schema update
         private const val TABLE_USERS = "users"
         private const val TABLE_BOOKINGS = "bookings"
 
-        const val COLUMN_ID = "id"
+        const val COLUMN_USER_ID = "user_id"
         const val COLUMN_NAME = "name"
         const val COLUMN_EMAIL = "email"
         const val COLUMN_PASSWORD = "password"
@@ -26,14 +27,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_VEHICLE_NAME = "vehicle_name"
         const val COLUMN_DAYS = "days"
         const val COLUMN_TOTAL_AMOUNT = "total_amount"
-        const val COLUMN_USER_ID = "user_id"
         const val COLUMN_BOOKING_TIME = "booking_time"
         const val COLUMN_RETURNED = "returned"
+        private const val COLUMN_CANCELED = "canceled"
+        private const val COLUMN_CANCELLATION_CHARGE = "cancellation_charge"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = ("CREATE TABLE $TABLE_USERS ("
-                + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "$COLUMN_USER_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "$COLUMN_NAME TEXT,"
                 + "$COLUMN_EMAIL TEXT,"
                 + "$COLUMN_PASSWORD TEXT,"
@@ -48,7 +50,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 + "$COLUMN_USER_ID INTEGER,"
                 + "$COLUMN_BOOKING_TIME TEXT,"
                 + "$COLUMN_RETURNED INTEGER DEFAULT 0,"
-                + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_ID)"
+                + "$COLUMN_CANCELED INTEGER DEFAULT 0,"
+                + "$COLUMN_CANCELLATION_CHARGE REAL DEFAULT 0.0,"
+                + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)"
                 + ")")
 
 
@@ -57,23 +61,51 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < 4) {
-            db?.execSQL("ALTER TABLE $TABLE_USERS ADD COLUMN $COLUMN_BANNED INTEGER DEFAULT 0")
-            db?.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_BOOKINGS ("
-                    + "$COLUMN_BOOKING_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "$COLUMN_VEHICLE_NAME TEXT,"
-                    + "$COLUMN_DAYS INTEGER,"
-                    + "$COLUMN_TOTAL_AMOUNT TEXT,"
-                    + "$COLUMN_USER_ID INTEGER,"
-                    + "$COLUMN_BOOKING_TIME TEXT,"
-                    + "$COLUMN_RETURNED INTEGER DEFAULT 0,"
-                    + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_ID)"
-                    + ")")
+        try {
+            if (oldVersion < 6) {
+                db?.execSQL("ALTER TABLE $TABLE_USERS RENAME TO temp_users")
+
+                db?.execSQL("ALTER TABLE $TABLE_BOOKINGS ADD COLUMN $COLUMN_CANCELED INTEGER DEFAULT 0")
+                db?.execSQL("ALTER TABLE $TABLE_BOOKINGS ADD COLUMN $COLUMN_CANCELLATION_CHARGE REAL DEFAULT 0.0")
+                // Create new table with updated schema
+                db?.execSQL("CREATE TABLE $TABLE_USERS ("
+                        + "$COLUMN_USER_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + "$COLUMN_NAME TEXT,"
+                        + "$COLUMN_EMAIL TEXT,"
+                        + "$COLUMN_PASSWORD TEXT,"
+                        + "$COLUMN_BANNED INTEGER DEFAULT 0"
+                        + ")")
+
+                // Copy data from old table to new table
+                db?.execSQL("INSERT INTO $TABLE_USERS ($COLUMN_USER_ID, $COLUMN_NAME, $COLUMN_EMAIL, $COLUMN_PASSWORD, $COLUMN_BANNED)"
+                        + " SELECT $COLUMN_USER_ID, $COLUMN_NAME, $COLUMN_EMAIL, $COLUMN_PASSWORD, $COLUMN_BANNED FROM temp_users")
+
+                // Drop the old table
+                db?.execSQL("DROP TABLE temp_users")
+
+                // Update foreign key references in bookings table
+                db?.execSQL("DROP TABLE IF EXISTS $TABLE_BOOKINGS")
+                db?.execSQL("CREATE TABLE $TABLE_BOOKINGS ("
+                        + "$COLUMN_BOOKING_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + "$COLUMN_VEHICLE_NAME TEXT,"
+                        + "$COLUMN_DAYS INTEGER,"
+                        + "$COLUMN_TOTAL_AMOUNT TEXT,"
+                        + "$COLUMN_USER_ID INTEGER,"
+                        + "$COLUMN_BOOKING_TIME TEXT,"
+                        + "$COLUMN_RETURNED INTEGER DEFAULT 0,"
+                        + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)"
+                        + ")")
+            }
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Error during database upgrade", e)
         }
     }
 
     fun getUserByEmail(email: String): Cursor {
         val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_EMAIL = ?"
+        return db.rawQuery(query, arrayOf(email))
+
         return db.query(
             TABLE_USERS,
             arrayOf(COLUMN_NAME, COLUMN_EMAIL), // Specify the columns you need
@@ -82,6 +114,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             null,
             null,
             null
+
         )
     }
 
@@ -94,7 +127,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         contentValues.put(COLUMN_PASSWORD, password)
         contentValues.put(COLUMN_BANNED, 0) // Default to not banned
 
-        return db.insert(TABLE_USERS, null, contentValues)
+        val userId = db.insert(TABLE_USERS, null, contentValues)
+        return userId
     }
 
     // Function to check user credentials
@@ -102,7 +136,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val db = this.readableDatabase
         val cursor: Cursor = db.query(
             TABLE_USERS,
-            arrayOf(COLUMN_ID),
+            arrayOf(COLUMN_USER_ID),
             "$COLUMN_EMAIL=? AND $COLUMN_PASSWORD=? AND $COLUMN_BANNED=0",
             arrayOf(email, password),
             null,
@@ -123,7 +157,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         totalAmount: String,
         userId: Int,
         bookingTime: String,
-        i: Int
+        canceled: Int = 0, // Default to not canceled
+        cancellationCharge: Double = 0.0
     ): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
@@ -133,6 +168,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COLUMN_USER_ID, userId)
             put(COLUMN_BOOKING_TIME, bookingTime)
             put(COLUMN_RETURNED, 0) // Initially not returned
+            put(COLUMN_CANCELED, canceled)
+            put(COLUMN_CANCELLATION_CHARGE, cancellationCharge)
         }
 
         Log.d("DatabaseHelper", "Inserting booking with values: $contentValues")
@@ -156,13 +193,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         if (cursor.moveToFirst()) {
             do {
+                val bookingId = cursor.getInt(cursor.getColumnIndex(COLUMN_BOOKING_ID))
                 val vehicleName = cursor.getString(cursor.getColumnIndex(COLUMN_VEHICLE_NAME))
                 val days = cursor.getInt(cursor.getColumnIndex(COLUMN_DAYS))
                 val totalAmount = cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_AMOUNT))
                 val bookingTime = cursor.getString(cursor.getColumnIndex(COLUMN_BOOKING_TIME))
                 val returned = cursor.getInt(cursor.getColumnIndex(COLUMN_RETURNED)) == 1
+                val canceled = cursor.getInt(cursor.getColumnIndex(COLUMN_CANCELED)) == 1
+                val cancellationCharge = cursor.getDouble(cursor.getColumnIndex(COLUMN_CANCELLATION_CHARGE))
 
-                bookings.add(Booking(vehicleName, days, totalAmount, bookingTime, returned, ))
+                bookings.add(Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge ))
             } while (cursor.moveToNext())
         } else {
             Log.d("DatabaseHelper", "No bookings found for user ID: $userId")
@@ -201,6 +241,36 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             arrayOf(email)
         )
     }
+
+    fun getUserIdByEmail(email: String): Int {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT $COLUMN_USER_ID FROM $TABLE_USERS WHERE $COLUMN_EMAIL = ?", arrayOf(email))
+        var userId = -1 // Default value for no user found
+
+        try {
+            if (cursor.moveToFirst()) {
+                // Safely retrieve the index and value
+                val columnIndex = cursor.getColumnIndex(COLUMN_USER_ID)
+                if (columnIndex != -1) {
+                    userId = cursor.getInt(columnIndex)
+                    Log.d("DatabaseHelper", "Retrieved user ID: $userId for email: $email")
+                } else {
+                    Log.e("DatabaseHelper", "Column $COLUMN_USER_ID not found in the cursor")
+                }
+            } else {
+                Log.w("DatabaseHelper", "No user found with email: $email")
+            }
+        } catch (e: Exception) {
+            Log.e("DatabaseHelper", "Error retrieving user ID for email: $email", e)
+        } finally {
+            cursor.close()
+            db.close()
+        }
+
+        return userId
+    }
+
+
 
     // Function to unban a user
     fun unbanUser(email: String): Int {
@@ -249,7 +319,69 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return banned
     }
 
+    fun updateReturnStatus(userId: Int, carName: String, returned: Int): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("returnStatus", returned)
+        }
+        val result = db.update("bookings", values, "userId=? AND carName=?", arrayOf(userId.toString(), carName))
+        return result > 0
+    }
 
+    @SuppressLint("Range")
+    fun cancelBooking(bookingId: Int): Boolean {
+        val db = writableDatabase
+        val contentValues = ContentValues().apply {
+            put(COLUMN_CANCELED, 1) // Mark as canceled
+            put(COLUMN_CANCELLATION_CHARGE, calculateCancellationCharge(bookingId)) // Set the cancellation charge
+        }
+        val result = db.update(TABLE_BOOKINGS, contentValues, "$COLUMN_BOOKING_ID = ?", arrayOf(bookingId.toString()))
+        return result > 0
+    }
+    fun parseTotalAmount(amountString: String): Double {
+        val cleanedString = amountString.replace(Regex("[^0-9.]"), "")
+        val parsedValue = cleanedString.toDoubleOrNull() ?: 0.0
+        Log.d("DatabaseHelper", "Parsed totalAmount: $parsedValue from string: $amountString")
+        return parsedValue
+    }
+
+    fun calculateCancellationCharge(bookingId: Int): Double {
+        val booking = getBookingById(bookingId)
+        val totalAmount = parseTotalAmount(booking?.totalAmount ?: "0")
+        val charge = totalAmount * 0.08
+
+        Log.d("DatabaseHelper", "Calculated cancellation charge: $charge for booking ID: $bookingId")
+        return charge
+    }
+    @SuppressLint("Range")
+    fun getBookingById(bookingId: Int): Booking? {
+        val db = readableDatabase
+        val cursor = db.query(
+            TABLE_BOOKINGS,
+            null,
+            "$COLUMN_BOOKING_ID = ?",
+            arrayOf(bookingId.toString()),
+            null,
+            null,
+            null
+        )
+
+        return if (cursor.moveToFirst()) {
+            val vehicleName = cursor.getString(cursor.getColumnIndex(COLUMN_VEHICLE_NAME))
+            val days = cursor.getInt(cursor.getColumnIndex(COLUMN_DAYS))
+            val totalAmount = cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL_AMOUNT))
+            val bookingTime = cursor.getString(cursor.getColumnIndex(COLUMN_BOOKING_TIME))
+            val returned = cursor.getInt(cursor.getColumnIndex(COLUMN_RETURNED)) == 1
+            val canceled = cursor.getInt(cursor.getColumnIndex(COLUMN_CANCELED)) == 1
+            val cancellationCharge = cursor.getDouble(cursor.getColumnIndex(COLUMN_CANCELLATION_CHARGE))
+
+            Log.d("DatabaseHelper", "Total Amount: $totalAmount") // Debug line
+
+            Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge)
+        } else {
+            null
+        }.also { cursor.close() }
+    }
 
     // Function to check admin credentials
     fun checkAdmin(email: String, password: String): Boolean {

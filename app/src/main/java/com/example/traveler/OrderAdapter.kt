@@ -9,7 +9,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class OrderAdapter(private val bookingss: List<Booking>) :
+class OrderAdapter(private var bookingss: List<Booking>,
+                   private var onCancelClickListener: (Int) -> Unit) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,6 +20,19 @@ class OrderAdapter(private val bookingss: List<Booking>) :
         val bookingTime2: TextView = itemView.findViewById(R.id.booking_time1)
         val returnedStatus2: TextView = itemView.findViewById(R.id.returned_status1)
         val cancelButton: Button = itemView.findViewById(R.id.button_cancel)
+
+        fun setOnCancelClickListener(listener: (Int) -> Unit) {
+            onCancelClickListener = listener
+        }
+
+        init {
+            cancelButton.setOnClickListener {
+                val booking = bookingss[adapterPosition]
+                if (!booking.returned && !booking.canceled) {
+                    onCancelClickListener?.invoke(booking.bookingId)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -37,6 +51,27 @@ class OrderAdapter(private val bookingss: List<Booking>) :
         holder.totalAmount2.text = "Total Amount: ${booking.totalAmount ?: "N/A"}"
         holder.bookingTime2.text = "Booking Time: ${booking.bookingTime ?: "N/A"}"
         holder.returnedStatus2.text = if (booking.returned) "Returned" else "Not Returned"
+
+        if (booking.returned) {
+            holder.returnedStatus2.text = "Returned"
+        } else {
+            holder.returnedStatus2.text = "Not Returned"
+        }
+
+        if (booking.returned) {
+            holder.returnedStatus2.text = "Returned"
+            holder.cancelButton.visibility = View.GONE
+        } else if (booking.canceled) {
+            holder.returnedStatus2.text = "Canceled. Charge: ${booking.cancellationCharge}"
+            holder.cancelButton.visibility = View.GONE
+        } else {
+            holder.returnedStatus2.text = "Not Returned"
+            holder.cancelButton.visibility = View.VISIBLE
+        }
+    }
+    fun updateBookings(newBookings: List<Booking>) {
+        bookingss = newBookings
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = bookingss.size

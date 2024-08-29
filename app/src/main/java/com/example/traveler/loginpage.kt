@@ -3,6 +3,7 @@ package com.example.traveler
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -39,7 +40,6 @@ class loginpage : AppCompatActivity() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-
             when {
                 databaseHelper.checkAdmin(email, password) -> {
                     // Redirect to AdminPageActivity
@@ -48,32 +48,36 @@ class loginpage : AppCompatActivity() {
                     finish()
                 }
 
-
-
                 databaseHelper.isUserBanned(email) -> {
                     // Show a toast message if the user is banned
                     Toast.makeText(this, "Your account has been banned.", Toast.LENGTH_SHORT).show()
                 }
 
                 databaseHelper.checkUser(email, password) -> {
-                    // Store logged-in email
-                    loginManager.storeLoggedInEmail(email)
-
+                    // Retrieve userId from the database
                     val userCursor = databaseHelper.getUserByEmail(email)
                     if (userCursor.moveToFirst()) {
-                        val columnIndex = userCursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)
-                        if (columnIndex != -1) {
-                            val userName = userCursor.getString(columnIndex)
+                        val userIdIndex = userCursor.getColumnIndex(DatabaseHelper.COLUMN_USER_ID)
+                        val userNameIndex = userCursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)
+
+                        if (userIdIndex != -1 && userNameIndex != -1) {
+                            val userId = userCursor.getString(userIdIndex)
+                            val userName = userCursor.getString(userNameIndex)
+
+                            // Store user details in LoginManager
+                            loginManager.storeLoggedInEmail(email)
                             loginManager.storeLoggedInUserName(userName)
+                            loginManager.storeLoggedInUserId(userId)
+
+                            // Redirect to WelcomePage
+                            val intent = Intent(this, WelcomePage::class.java)
+                            startActivity(intent)
+                            finish()
                         } else {
-                            Toast.makeText(this, "Name column not found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "User details not found", Toast.LENGTH_SHORT).show()
                         }
                     }
                     userCursor.close()
-                    // Redirect to WelcomePage
-                    val intent = Intent(this, WelcomePage::class.java)
-                    startActivity(intent)
-                    finish()
                 }
 
                 else -> {
