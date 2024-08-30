@@ -348,7 +348,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun calculateCancellationCharge(bookingId: Int): Double {
         val booking = getBookingById(bookingId)
         val totalAmount = parseTotalAmount(booking?.totalAmount ?: "0")
-        val charge = totalAmount * 0.08
+        val charge = totalAmount * 0.03
 
         Log.d("DatabaseHelper", "Calculated cancellation charge: $charge for booking ID: $bookingId")
         return charge
@@ -381,6 +381,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         } else {
             null
         }.also { cursor.close() }
+    }
+
+    fun isEmailExists(email: String): Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT * FROM users WHERE email = ?"
+        val cursor = db.rawQuery(query, arrayOf(email))
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
     }
 
     // Function to check admin credentials

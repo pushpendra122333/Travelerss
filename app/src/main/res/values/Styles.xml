@@ -10,4 +10,5 @@
     <style name="CustomMenuItemTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">#FF5722</item> <!-- Replace with your desired color -->
     </style>
+
 </resources>

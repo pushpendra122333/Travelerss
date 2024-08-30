@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 
 class OrderPage : Fragment() {
 
@@ -52,7 +53,10 @@ class OrderPage : Fragment() {
             // requireActivity().finish() // Optional: Close the current activity if applicable
         }
 
+
         return view
+
+
     }
 
     private fun getCurrentUserId(): Int {

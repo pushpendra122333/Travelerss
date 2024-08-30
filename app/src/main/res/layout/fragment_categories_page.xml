@@ -1,24 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_container"
     tools:context=".CategoriesPage">
-    <TextView
-        android:id="@+id/selected_category_text"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:text="Select a category"/>
-
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_container">
 
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="60dp"
+    android:layout_marginTop="10dp"
     android:id="@+id/recycler_view_category" />
 
-
-</FrameLayout>
+    </FrameLayout>
+</RelativeLayout>

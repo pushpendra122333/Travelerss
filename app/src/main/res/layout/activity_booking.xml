@@ -52,17 +52,6 @@
         android:hint="Enter number of days"
         android:inputType="number" />
 
-    <TextView
-        android:id="@+id/calculate_button"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        android:fontFamily="@font/mate"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/login_button"
-        android:gravity="center"
-        android:text="Calculate" />
 
     <TextView
         android:id="@+id/total_amount"

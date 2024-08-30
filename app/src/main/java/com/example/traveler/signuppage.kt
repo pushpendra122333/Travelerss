@@ -38,6 +38,10 @@ class signuppage : AppCompatActivity() {
                 Toast.makeText(this, "Invalid email format.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (databaseHelper.isEmailExists(email) || isAdminEmail(email)) {
+                Toast.makeText(this, "Email is already taken.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             if (password == confirmPassword) {
                 val id = databaseHelper.insertUser(name, email, password)
@@ -57,5 +61,9 @@ class signuppage : AppCompatActivity() {
         // Regular expression for validating email
         val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.[a-zA-Z]+"
         return email.matches(emailPattern.toRegex())
+    }
+    private fun isAdminEmail(email: String): Boolean {
+        val adminEmail = "Boss@gmail.com"
+        return email.equals(adminEmail, ignoreCase = true)
     }
 }

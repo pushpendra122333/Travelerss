@@ -17,18 +17,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/lysearch"
-    android:padding="16dp">
+    android:id="@+id/lysearch">
 
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:hint="Search"
         android:background="@drawable/edittextdesign"
         android:drawableLeft="@drawable/baseline_search_24"
         android:inputType="text"
-        android:padding="12dp"
+        android:layout_marginTop="15dp"
         android:drawablePadding="8dp" />
 
 </LinearLayout>
@@ -43,6 +42,6 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp" />
+         />
 
 </LinearLayout>

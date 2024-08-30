@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 
 class CategoriesPage : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var selectedCategoryText: TextView
 
 
 
@@ -29,7 +29,6 @@ class CategoriesPage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.recycler_view_category)
-        selectedCategoryText = view.findViewById(R.id.selected_category_text)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -44,7 +43,6 @@ class CategoriesPage : Fragment() {
         // Set up the adapter and handle clicks
         categoryAdapter = CategoryAdapter(categories) { category ->
 
-            selectedCategoryText.text = "Selected category: $category"
 
 
 
@@ -54,8 +52,15 @@ class CategoriesPage : Fragment() {
             bundle.putString("category", category)
             fragment.arguments = bundle
 
+            val transition = TransitionInflater.from(requireContext())
+                .inflateTransition(android.R.transition.move)
+
+            sharedElementEnterTransition = transition
+            sharedElementReturnTransition = transition
+
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
+                .addSharedElement(view.findViewById(R.id.category_name), "categoryTransition")
                 .addToBackStack(null)
                 .commit()
         }

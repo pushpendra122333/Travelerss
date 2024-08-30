@@ -49,33 +49,12 @@ class BookingActivity : AppCompatActivity() {
         totalAmountTextView = findViewById(R.id.total_amount)
         bookingDetails = findViewById(R.id.booking_details)
         confirmButton = findViewById(R.id.confirm_booking_button)
-        calculateButton = findViewById(R.id.calculate_button)
 
         // Set initial data
         vehicleImage.setImageResource(car.imageResource)
         vehicleName.text = car.name
         vehiclePrice.text = car.price
         bookingDetails.text = "Daily rate: ${car.price}"
-        calculateButton.setOnClickListener {
-            try {
-                val days = daysEditText.text.toString().toIntOrNull()
-                if (days != null && days > 0) {
-                    val price = car.price.removePrefix("₹ ").removeSuffix(" / Per Day").replace(",", "").toIntOrNull()
-                    if (price != null) {
-                        val amount = price * days
-                        totalAmountTextView.text = "Total amount: ₹ $amount"
-                    } else {
-                        totalAmountTextView.text = "Invalid price format"
-                    }
-                } else {
-                    totalAmountTextView.text = "Please enter a valid number of days"
-                }
-            } catch (e: Exception) {
-                // Log the error to understand the cause of the crash
-                e.printStackTrace()
-                totalAmountTextView.text = "An error occurred. Please try again."
-            }
-        }
         confirmButton.setOnClickListener {
             val days = daysEditText.text.toString().toIntOrNull()
             if (days != null && days > 0) {
