@@ -21,6 +21,7 @@ class signuppage : AppCompatActivity() {
         val emailEditText: EditText = findViewById(R.id.et2)
         val passwordEditText: EditText = findViewById(R.id.et3)
         val confirmPasswordEditText: EditText = findViewById(R.id.et4)
+        val phoneNumberEditText: EditText = findViewById(R.id.et5)
         val signUpButton: TextView = findViewById(R.id.b2)
 
         signUpButton.setOnClickListener {
@@ -28,8 +29,9 @@ class signuppage : AppCompatActivity() {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString()
             val confirmPassword = confirmPasswordEditText.text.toString()
+            val phoneNumber = phoneNumberEditText.text.toString().trim()
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || phoneNumber.isEmpty()) {
                 Toast.makeText(this, "All fields must be filled.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -44,7 +46,7 @@ class signuppage : AppCompatActivity() {
             }
 
             if (password == confirmPassword) {
-                val id = databaseHelper.insertUser(name, email, password)
+                val id = databaseHelper.insertUser(name, email, password, phoneNumber)
                 if (id > 0) {
                     Toast.makeText(this, "User registered successfully!", Toast.LENGTH_SHORT).show()
                     finish() // Close the sign-up activity

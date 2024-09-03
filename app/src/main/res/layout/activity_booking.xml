@@ -40,6 +40,27 @@
         android:textStyle="bold"
         android:textSize="16sp"
         android:text="Booking Details" />
+    <EditText
+        android:id="@+id/start_date_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/booking_details"
+        android:layout_marginTop="16dp"
+        android:hint="Select Start Date"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="true" />
+
+    <EditText
+        android:id="@+id/end_date_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/start_date_input"
+        android:layout_marginTop="8dp"
+        android:hint="Select End Date"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="true" />
 
     <EditText
         android:id="@+id/days_input"
@@ -47,10 +68,14 @@
         android:layout_height="50dp"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:textColor="@color/black"
         android:paddingLeft="20dp"
         android:background="@drawable/edittextdesign"
-        android:hint="Enter number of days"
-        android:inputType="number" />
+        android:hint="Days"
+        android:inputType="text" />
 
 
     <TextView
@@ -68,10 +93,12 @@
         android:layout_height="60dp"
         android:fontFamily="@font/mate"
         android:layout_marginTop="18dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/textview_background"
         android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/textview_color_states"
         android:text="Confirm Booking"
-        android:textColor="#ffffff"
         android:textSize="20dp"
         android:textStyle="bold" />
 

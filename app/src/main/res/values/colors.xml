@@ -8,4 +8,7 @@
     <color name="menu_item_text_color">#070707</color>
     <color name="selected_tab_color">@color/green</color> <!-- Orange for selected tab -->
     <color name="unselected_tab_color">#101A50</color> <!-- Grey for unselected tab -->
+    <color name="colorPressed">#314095</color>
+    <color name="colorFocused">#00FF00</color>
+    <color name="colorDefault">#FFFFFF</color>
 </resources>

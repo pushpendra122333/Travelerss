@@ -1,8 +1,10 @@
 package com.example.traveler
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
@@ -75,6 +77,30 @@ class WelcomePage : AppCompatActivity() {
             }
         })
     }
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        // Show the confirmation dialog
+        showExitConfirmationDialog()
+    }
 
+    private fun showExitConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Exit App")
+        builder.setMessage("Are you sure you want to exit the app?")
+
+        // Positive button - Exits the app
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            dialog.dismiss()
+            finishAffinity()  // Exit the app
+        }
+
+        // Negative button - Dismisses the dialog and does nothing
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        // Display the dialog
+        builder.create().show()
+    }
 
 }

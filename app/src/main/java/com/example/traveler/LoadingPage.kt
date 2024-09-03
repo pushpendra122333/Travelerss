@@ -12,6 +12,7 @@ class LoadingPage : AppCompatActivity() {
         setContentView(R.layout.activity_loading_page)
         android.os.Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this,MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         },3000)
     }

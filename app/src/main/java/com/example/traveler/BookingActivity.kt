@@ -7,12 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,7 +33,8 @@ class BookingActivity : AppCompatActivity() {
     private lateinit var calculateButton: TextView
     private lateinit var loginManager: LoginManager
 
-    @SuppressLint("SetTextI18n")
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking)
@@ -100,7 +103,8 @@ class BookingActivity : AppCompatActivity() {
 
             if (paymentStatus == "success" && days > 0) {
                 // Save the booking to the database
-                val result = dbHelper.insertBooking(carName ?: "", days, "₹ $totalPrice", userId, bookingTime, 0)
+                val result = dbHelper.insertBooking(carName ?: "",
+                    days, "₹ $totalPrice", userId, bookingTime, 0)
 
                 if (result != -1L) {
                     totalAmountTextView.text = "Total Amount: ₹ $totalPrice"

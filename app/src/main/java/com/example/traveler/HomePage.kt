@@ -79,6 +79,7 @@ class HomePage : Fragment() {
             val context = requireContext()
             val intent = Intent(context, BookingActivity::class.java)
             intent.putExtra("car", car)
+
             startActivity(intent)
         }
         recyclerView.adapter = carAdapter
@@ -139,6 +140,7 @@ class HomePage : Fragment() {
 
                val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse("https://alike-jam-bee.notion.site/FEEDBACK-2ddf172a2229471aaf839df4c2968520?pvs=4")
+
                 startActivity(i)
                 true
             }
@@ -165,5 +167,6 @@ class HomePage : Fragment() {
         )
         menuItem.title = spanString
     }
+
 
 }

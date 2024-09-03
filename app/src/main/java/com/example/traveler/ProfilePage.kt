@@ -179,6 +179,7 @@ class ProfilePage : Fragment() {
             loginManager.logout()
             clearProfileImage() // Clear profile image on logout
             val intent = Intent(activity, loginpage::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             activity?.finish()
         }

@@ -42,64 +42,77 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.0">
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/textView4"
             android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:text="Email"
+            android:layout_gravity="center"
             android:fontFamily="@font/merianda"
             android:textSize="25dp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/ET1"
-            android:layout_width="275dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/edittextdesign"
             android:drawableLeft="@drawable/baseline_email_24"
             android:drawablePadding="10dp"
+            android:layout_gravity="center"
             android:ems="10"
             android:hint="Enter your Email"
             android:inputType="text"
             android:padding="15dp"
             android:textColor="#707070"
             android:textSize="25dp" />
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="309dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/merianda"
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Password"
-            android:textSize="25dp"
-            android:textStyle="bold" />
-
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="309dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/merianda"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Password"
+                android:textSize="25dp"
+                android:textStyle="bold" />
         <EditText
             android:id="@+id/ET2"
-            android:layout_width="274dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/edittextdesign"
             android:drawableLeft="@drawable/baseline_lock_24"
+            android:drawableRight="@drawable/baseline_visibility_off_24"
             android:drawablePadding="10dp"
+            android:layout_gravity="center"
             android:ems="10"
             android:hint="Enter your Password"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:padding="15dp"
             android:textColor="#707070"
             android:textSize="25dp" />
 
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="120dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="180dp"
+                android:text="Forget Password"
+                android:textColor="#162A95"
+                android:textSize="15dp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="150dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="150dp"
-            android:text="Forget Password"
-            android:textColor="#162A95"
-            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/signup"
