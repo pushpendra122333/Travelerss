@@ -170,7 +170,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         userId: Int,
         bookingTime: String,
         canceled: Int = 0, // Default to not canceled
-        cancellationCharge: Double = 0.0
+        cancellationCharge: Double = 0.0,
+        startDate: String,
+        endDate: String
     ): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
@@ -182,8 +184,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COLUMN_RETURNED, 0) // Initially not returned
             put(COLUMN_CANCELED, canceled)
             put(COLUMN_CANCELLATION_CHARGE, cancellationCharge)
+            put(COLUMN_START_DATE, startDate) // Add start date
+            put(COLUMN_END_DATE, endDate)
         }
-
         Log.d("DatabaseHelper", "Inserting booking with values: $contentValues")
 
         val result = db.insert(TABLE_BOOKINGS, null, contentValues)
@@ -213,7 +216,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 val returned = cursor.getInt(cursor.getColumnIndex(COLUMN_RETURNED)) == 1
                 val canceled = cursor.getInt(cursor.getColumnIndex(COLUMN_CANCELED)) == 1
                 val cancellationCharge = cursor.getDouble(cursor.getColumnIndex(COLUMN_CANCELLATION_CHARGE))
-                bookings.add(Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge))
+                val startdate = cursor.getString(cursor.getColumnIndex(COLUMN_START_DATE))
+                val enddate = cursor.getString(cursor.getColumnIndex(COLUMN_END_DATE))
+                bookings.add(Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge, startdate, enddate))
             } while (cursor.moveToNext())
         } else {
             Log.d("DatabaseHelper", "No bookings found for user ID: $userId")
@@ -385,11 +390,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             val returned = cursor.getInt(cursor.getColumnIndex(COLUMN_RETURNED)) == 1
             val canceled = cursor.getInt(cursor.getColumnIndex(COLUMN_CANCELED)) == 1
             val cancellationCharge = cursor.getDouble(cursor.getColumnIndex(COLUMN_CANCELLATION_CHARGE))
+            val startdate = cursor.getString(cursor.getColumnIndex(COLUMN_START_DATE))
+            val enddate = cursor.getString(cursor.getColumnIndex(COLUMN_END_DATE))
 
 
             Log.d("DatabaseHelper", "Total Amount: $totalAmount") // Debug line
 
-            Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge)
+            Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge,startdate,enddate)
         } else {
             null
         }.also { cursor.close() }

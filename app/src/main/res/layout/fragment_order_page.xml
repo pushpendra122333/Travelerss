@@ -3,25 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-
     tools:context=".OrderPage">
-    <TextView
-        android:id="@+id/vehicle_name1"
-        android:layout_width="310dp"
-        android:layout_height="58dp"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="YOUR ORDERS:-"
-        android:background="@drawable/textviewdesign"
-        android:textStyle="bold"
-        android:textSize="40dp"/>
+  <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:src="@drawable/orderpage"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"/>
+        android:background="@drawable/colored_padding"
+        android:padding="16dp"
+        android:layout_marginTop="2dp"/>
 
 
 </LinearLayout>

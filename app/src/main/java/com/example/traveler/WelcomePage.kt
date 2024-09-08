@@ -79,8 +79,12 @@ class WelcomePage : AppCompatActivity() {
     }
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        // Show the confirmation dialog
-        showExitConfirmationDialog()
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            // Show the confirmation dialog only if there are no fragments in the back stack
+            showExitConfirmationDialog()
+        }
     }
 
     private fun showExitConfirmationDialog() {

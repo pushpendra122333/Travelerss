@@ -4,11 +4,13 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 
 class CategoryAdapter(
     private val categories: List<String>,
+    private val images: List<Int>,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
@@ -21,7 +23,7 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(categories[position], position == selectedPosition)
+        holder.bind(categories[position],images[position], position == selectedPosition)
         holder.itemView.setOnClickListener {
             val previousPosition = selectedPosition
             selectedPosition = if (selectedPosition == position) {
@@ -39,12 +41,20 @@ class CategoryAdapter(
 
     class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView: TextView = itemView.findViewById(R.id.category_name)
-
-        fun bind(category: String, isSelected: Boolean) {
+        private val imageView: ImageView = itemView.findViewById(R.id.category_image)
+        fun bind(category: String, imageRes: Int, isSelected: Boolean) {
             textView.text = category
-            // Update UI for selected state
-            itemView.setBackgroundColor(if (isSelected) Color.LTGRAY else Color.WHITE)
-            textView.setTextColor(if (isSelected) Color.BLUE else Color.BLACK)
+            imageView.setImageResource(imageRes)
+
+            if (isSelected) {
+                itemView.setBackgroundColor(Color.LTGRAY)
+                textView.setTextColor(Color.BLUE)
+                itemView.animate().scaleX(1.05f).scaleY(1.05f).setDuration(200).start() // Scale up
+            } else {
+                itemView.setBackgroundColor(Color.WHITE)
+                textView.setTextColor(Color.BLACK)
+                itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start() // Scale down
+            }
         }
     }
 }

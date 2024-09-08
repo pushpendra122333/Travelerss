@@ -5,7 +5,7 @@
     <color name="green">#068251</color>
     <color name="your_button_text_color">#FF0000</color>
     <color name="custom_menu_item_color">#FF5722</color>
-    <color name="menu_item_text_color">#070707</color>
+    <color name="menu_item_text_color">#FBF8F8</color>
     <color name="selected_tab_color">@color/green</color> <!-- Orange for selected tab -->
     <color name="unselected_tab_color">#101A50</color> <!-- Grey for unselected tab -->
     <color name="colorPressed">#314095</color>

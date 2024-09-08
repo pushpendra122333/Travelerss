@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:orientation="vertical"
     android:text="Category Name">
+    <ImageView
+        android:id="@+id/category_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/car" /> <!-- replace with your image resource -->
+
+    <!-- TextView centered on top of the image -->
     <TextView
         android:id="@+id/category_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPressed"
         android:fontFamily="@font/mate"
         android:text="Category Name"
+        android:visibility="gone"
         android:transitionName="categoryTransition"
         android:textSize="18sp"
-        android:background="@drawable/gradient_pro"
-        />
-
-</LinearLayout>
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:padding="8dp"
+        android:background="@android:color/transparent" />
+</FrameLayout>

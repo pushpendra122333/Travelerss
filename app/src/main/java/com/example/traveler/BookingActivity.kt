@@ -2,6 +2,7 @@ package com.example.traveler
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -21,17 +22,25 @@ import java.util.*
 // BookingActivity.kt
 class BookingActivity : AppCompatActivity() {
 
+    private lateinit var startdate10:String
+    private lateinit var enddate10:String
+
     private lateinit var dbHelper: DatabaseHelper
     private lateinit var car: Car
     private lateinit var vehicleImage: ImageView
     private lateinit var vehicleName: TextView
     private lateinit var vehiclePrice: TextView
     private lateinit var bookingDetails: TextView
-    private lateinit var daysEditText: EditText
+    private lateinit var daysEditText: TextView
     private lateinit var totalAmountTextView: TextView
     private lateinit var confirmButton: TextView
     private lateinit var calculateButton: TextView
     private lateinit var loginManager: LoginManager
+    private lateinit var start_date_input: TextView
+    private lateinit var end_date_input: TextView
+
+    var startDate: Calendar? = null
+    var endDate: Calendar? = null
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -52,12 +61,47 @@ class BookingActivity : AppCompatActivity() {
         totalAmountTextView = findViewById(R.id.total_amount)
         bookingDetails = findViewById(R.id.booking_details)
         confirmButton = findViewById(R.id.confirm_booking_button)
+        start_date_input = findViewById(R.id.start_date_input)
+        end_date_input = findViewById(R.id.end_date_input)
+
+        start_date_input.setOnClickListener {
+            showDatePicker { date ->
+                startDate = date
+                val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date.time)
+              startdate10= formattedDate
+                start_date_input.text = formattedDate
+
+                Log.d("DatePicker", "Selected Start Date: $formattedDate")
+
+                // Calculate days if both startDate and endDate are selected
+                if (startDate != null && endDate != null) {
+                    calculateDaysAndPrice()
+                }
+            }
+        }
+
+        end_date_input.setOnClickListener {
+            showDatePicker { date ->
+                endDate = date
+                val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date.time)
+                end_date_input.text = formattedDate
+                enddate10=formattedDate
+                Log.d("DatePicker", "Selected End Date: $formattedDate")
+
+                // Calculate days if both startDate and endDate are selected
+                if (startDate != null && endDate != null) {
+                    calculateDaysAndPrice()
+                }
+            }
+        }
 
         // Set initial data
         vehicleImage.setImageResource(car.imageResource)
         vehicleName.text = car.name
         vehiclePrice.text = car.price
         bookingDetails.text = "Daily rate: ${car.price}"
+
+
         confirmButton.setOnClickListener {
             val days = daysEditText.text.toString().toIntOrNull()
             if (days != null && days > 0) {
@@ -78,7 +122,8 @@ class BookingActivity : AppCompatActivity() {
                     intent.putExtra("totalAmount", totalPrice)
                     intent.putExtra("userId", getCurrentUserId())
                     intent.putExtra("bookingTime", SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()))
-
+                    intent.putExtra("startDate", start_date_input.toString()) // Pass start date string
+                    intent.putExtra("endDate", end_date_input.toString())
                     startActivityForResult(intent, PAYMENT_REQUEST_CODE)
                 }
             } else {
@@ -87,6 +132,36 @@ class BookingActivity : AppCompatActivity() {
         }
 
     }
+    private fun showDatePicker(onDateSelected: (Calendar) -> Unit) {
+        val currentDate = Calendar.getInstance()
+        val year = currentDate.get(Calendar.YEAR)
+        val month = currentDate.get(Calendar.MONTH)
+        val day = currentDate.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = Calendar.getInstance().apply {
+                set(Calendar.YEAR, selectedYear)
+                set(Calendar.MONTH, selectedMonth)
+                set(Calendar.DAY_OF_MONTH, selectedDay)
+            }
+            onDateSelected(selectedDate)
+        }, year, month, day)
+
+        datePickerDialog.show()
+    }
+
+    // Function to calculate the number of days between start and end date
+    private fun calculateDaysAndPrice() {
+        val daysBetween = ((endDate!!.timeInMillis - startDate!!.timeInMillis) / (1000 * 60 * 60 * 24)).toInt()
+
+        if (daysBetween >= 0) {
+            daysEditText.setText(daysBetween.toString())
+        } else {
+            Toast.makeText(this, "End date must be after start date.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -98,13 +173,15 @@ class BookingActivity : AppCompatActivity() {
             val days = data?.getIntExtra("days", 0) ?: 0
             val totalPrice = data?.getIntExtra("totalAmount", 0) ?: 0
             val userId = data?.getIntExtra("userId", 0) ?: 0
+
             Log.d("PaymentActivity", "User ID received in PaymentActivity: $userId")
             val bookingTime = data?.getStringExtra("bookingTime") ?: ""
 
             if (paymentStatus == "success" && days > 0) {
+
                 // Save the booking to the database
                 val result = dbHelper.insertBooking(carName ?: "",
-                    days, "₹ $totalPrice", userId, bookingTime, 0)
+                    days, "₹ $totalPrice", userId, bookingTime, 0,0.0,startdate10,enddate10)
 
                 if (result != -1L) {
                     totalAmountTextView.text = "Total Amount: ₹ $totalPrice"

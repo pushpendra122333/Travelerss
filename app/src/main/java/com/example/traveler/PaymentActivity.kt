@@ -52,7 +52,6 @@ class PaymentActivity : AppCompatActivity() {
         days = intent.getIntExtra("days", 0)
         userId = intent.getIntExtra("userId", 0)
         bookingTime = intent.getStringExtra("bookingTime")
-
         upiButton.setOnClickListener {
             paymentMethod = "UPI"
             showUpiNumber()

@@ -18,6 +18,8 @@ class OrderAdapter(private var bookingss: List<Booking>,
         val days2: TextView = itemView.findViewById(R.id.days1)
         val totalAmount2: TextView = itemView.findViewById(R.id.total_amount1)
         val bookingTime2: TextView = itemView.findViewById(R.id.booking_time1)
+        val startdates: TextView = itemView.findViewById(R.id.startdates)
+        val enddates: TextView = itemView.findViewById(R.id.enddates)
         val returnedStatus2: TextView = itemView.findViewById(R.id.returned_status1)
         val cancelButton: Button = itemView.findViewById(R.id.button_cancel)
 
@@ -50,6 +52,8 @@ class OrderAdapter(private var bookingss: List<Booking>,
         holder.days2.text = "Days: ${booking.days ?: 0}"
         holder.totalAmount2.text = "Total Amount: ${booking.totalAmount ?: "N/A"}"
         holder.bookingTime2.text = "Booking Time: ${booking.bookingTime ?: "N/A"}"
+        holder.startdates.text = "Start Date: ${booking.startdate ?: "N/A"}"
+        holder.enddates.text = "End Date: ${booking.enddate ?: "N/A"}"
         holder.returnedStatus2.text = if (booking.returned) "Returned" else "Not Returned"
 
         if (booking.returned) {

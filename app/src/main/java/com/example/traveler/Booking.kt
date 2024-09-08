@@ -11,6 +11,8 @@ data class Booking(
     val returned: Boolean,
     val canceled: Boolean,
     val cancellationCharge: Double,
+    val startdate: String,
+    val enddate: String,
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -22,6 +24,8 @@ data class Booking(
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readDouble(),
+        parcel.readString()!!,
+        parcel.readString()!!,
 
     )
 

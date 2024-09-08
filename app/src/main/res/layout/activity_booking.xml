@@ -40,29 +40,35 @@
         android:textStyle="bold"
         android:textSize="16sp"
         android:text="Booking Details" />
-    <EditText
+    <TextView
         android:id="@+id/start_date_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:background="@drawable/mainanim"
         android:layout_below="@id/booking_details"
         android:layout_marginTop="16dp"
         android:hint="Select Start Date"
-        android:inputType="none"
+        android:gravity="center"
         android:focusable="false"
+        android:textSize="40dp"
+        android:textStyle="bold"
         android:clickable="true" />
 
-    <EditText
+    <TextView
         android:id="@+id/end_date_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_below="@id/start_date_input"
+        android:background="@drawable/mainanim"
         android:layout_marginTop="8dp"
         android:hint="Select End Date"
-        android:inputType="none"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:gravity="center"
         android:focusable="false"
         android:clickable="true" />
 
-    <EditText
+    <TextView
         android:id="@+id/days_input"
         android:layout_width="330dp"
         android:layout_height="50dp"
@@ -74,8 +80,7 @@
         android:textColor="@color/black"
         android:paddingLeft="20dp"
         android:background="@drawable/edittextdesign"
-        android:hint="Days"
-        android:inputType="text" />
+        android:hint="Days" />
 
 
     <TextView
