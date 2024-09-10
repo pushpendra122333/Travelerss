@@ -57,6 +57,7 @@ class HomePage : Fragment() {
         filterSpinner = view.findViewById(R.id.filter_spinner)
         toolbar = view.findViewById(R.id.toolbar)
 
+
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
 
@@ -97,7 +98,7 @@ class HomePage : Fragment() {
         })
 
         val filterOptions = arrayOf("Default", "Price: Low to High", "Price: High to Low", "Min. 2 Passengers", "Min. 4 Passengers", "Min. 6 Passengers")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, filterOptions)
+        val adapter = CustomSpinnerAdapter(requireContext(), filterOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         filterSpinner.adapter = adapter
 

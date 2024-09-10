@@ -6,30 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ProfilePage">
-<LinearLayout
+<ImageView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/toply">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/profilepage"/>
-</LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:background="@drawable/colored_padding"
-        android:layout_below="@id/toply">
+    android:layout_height="60dp"
+    android:background="#072a6c"
+    android:id="@+id/profiletop"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/ly3"
         android:layout_below="@id/changely"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="15dp">
     <TextView
         android:id="@+id/follow"
         android:layout_width="wrap_content"
@@ -72,14 +59,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_below="@id/ly5"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="200dp"
         android:orientation="vertical">
     <TextView
         android:id="@+id/logoutButton"
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:fontFamily="@font/mate"
+        android:fontFamily="@font/calibri"
         android:background="@drawable/logout_button"
         android:backgroundTint="#820623"
         android:gravity="center"
@@ -92,6 +79,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mainly"
+    android:layout_below="@+id/profiletop"
     android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -101,15 +89,17 @@
         app:civ_border_color="@color/black"
         android:layout_marginLeft="30dp"
         app:civ_border_width="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
         android:scaleType="centerCrop" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -207,14 +197,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/ly4"
         android:layout_below="@+id/ly3"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="10dp">
     <TextView
         android:id="@+id/aboutus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:gravity="center"
-        android:fontFamily="@font/merianda"
+        android:gravity=""
+        android:fontFamily="@font/calibri"
         android:text="About Us"
         android:textColor="@color/green"
         android:textSize="20dp"
@@ -230,12 +220,11 @@
             android:id="@+id/Contactus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_marginTop="10dp"
             android:text="Contact Us"
-            android:fontFamily="@font/merianda"
+            android:fontFamily="@font/calibri"
             android:textColor="@color/green"
             android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
-    </RelativeLayout>
 </RelativeLayout>

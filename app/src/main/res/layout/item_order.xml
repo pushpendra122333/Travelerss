@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="260dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_below="@+id/LOGO"
     android:layout_margin="16dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="4dp"
     android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="260dp"
         android:padding="10dp"
-        android:background="#FABC3F"
+        android:background="@drawable/ordercardview"
         android:orientation="vertical">
     <TextView
         android:id="@+id/vehicle_name1"
@@ -18,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/calibri"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10dp"
         android:text="vehicle"
         android:textStyle="bold"
         android:textSize="20dp"/>
@@ -28,7 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/calibri"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10dp"
         android:textSize="20dp"
         android:text="Days"/>
 
@@ -37,7 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/calibri"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10dp"
         android:textSize="20dp"
         android:text="Total_Amount"/>
 
@@ -46,7 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/calibri"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10dp"
         android:textSize="20dp"
         android:text="booking_time"/>
 
@@ -55,7 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/calibri"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
             android:textSize="20dp"
             android:text="returned_status"/>
         <TextView
@@ -63,7 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/calibri"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
             android:textSize="20dp"
             android:text="Start Date"/>
 
@@ -72,7 +81,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/calibri"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10dp"
         android:textSize="20dp"
         android:text="End Date"/>
     <Button
@@ -83,6 +93,7 @@
         android:background="@drawable/bookbutton"
         android:textColor="@color/white"
         android:textStyle="bold"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:visibility="gone"
         android:text="Cancel" />

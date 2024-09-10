@@ -39,7 +39,7 @@ class CategoriesPage : Fragment() {
 
         // Define the categories
         val categories = listOf("Bike", "Car", "Minibus")
-        val images = listOf(R.drawable.showbike, R.drawable.carsss, R.drawable.minibuss)
+        val images = listOf(R.drawable.catbike, R.drawable.catcar, R.drawable.catmini)
 
         // Set up the adapter and handle clicks
         categoryAdapter = CategoryAdapter(categories , images) { category ->
