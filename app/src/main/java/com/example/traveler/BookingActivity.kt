@@ -24,6 +24,7 @@ class BookingActivity : AppCompatActivity() {
 
     private lateinit var startdate10:String
     private lateinit var enddate10:String
+    private lateinit var addresses:String
 
     private lateinit var dbHelper: DatabaseHelper
     private lateinit var car: Car
@@ -38,6 +39,7 @@ class BookingActivity : AppCompatActivity() {
     private lateinit var loginManager: LoginManager
     private lateinit var start_date_input: TextView
     private lateinit var end_date_input: TextView
+    private lateinit var addressEditText: EditText
 
     var startDate: Calendar? = null
     var endDate: Calendar? = null
@@ -63,7 +65,7 @@ class BookingActivity : AppCompatActivity() {
         confirmButton = findViewById(R.id.confirm_booking_button)
         start_date_input = findViewById(R.id.start_date_input)
         end_date_input = findViewById(R.id.end_date_input)
-
+        addressEditText=findViewById(R.id.addressEditText)
         start_date_input.setOnClickListener {
             showDatePicker { date ->
                 startDate = date
@@ -104,11 +106,22 @@ class BookingActivity : AppCompatActivity() {
 
         confirmButton.setOnClickListener {
             val days = daysEditText.text.toString().toIntOrNull()
-            if (days != null && days > 0) {
-                if (days > 28) {
-                    // Show a message if the number of days exceeds 30
+            val address = addressEditText.text.toString()
+             addresses = address
+            when {
+                // Check if the number of days is valid
+                days == null || days <= 0 -> {
+                    Toast.makeText(this, "Please enter a valid number of days.", Toast.LENGTH_SHORT).show()
+                }
+                // Check if the number of days exceeds the limit
+                days > 28 -> {
                     Toast.makeText(this, "You can book for a maximum of 28 days.", Toast.LENGTH_LONG).show()
-                } else {
+                }
+                // Check if the address field is empty
+                address.isEmpty() -> {
+                    Toast.makeText(this, "Please enter your address.", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
                     val perDayPrice = car.price.removePrefix("₹ ").removeSuffix(" / Per Day").replace(",", "").toInt()
                     val totalPrice = days * perDayPrice
 
@@ -124,10 +137,9 @@ class BookingActivity : AppCompatActivity() {
                     intent.putExtra("bookingTime", SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()))
                     intent.putExtra("startDate", start_date_input.toString()) // Pass start date string
                     intent.putExtra("endDate", end_date_input.toString())
+                    intent.putExtra("address", addressEditText.toString())
                     startActivityForResult(intent, PAYMENT_REQUEST_CODE)
                 }
-            } else {
-                totalAmountTextView.text = "Please enter a valid number of days"
             }
         }
 
@@ -173,7 +185,6 @@ class BookingActivity : AppCompatActivity() {
             val days = data?.getIntExtra("days", 0) ?: 0
             val totalPrice = data?.getIntExtra("totalAmount", 0) ?: 0
             val userId = data?.getIntExtra("userId", 0) ?: 0
-
             Log.d("PaymentActivity", "User ID received in PaymentActivity: $userId")
             val bookingTime = data?.getStringExtra("bookingTime") ?: ""
 
@@ -181,7 +192,7 @@ class BookingActivity : AppCompatActivity() {
 
                 // Save the booking to the database
                 val result = dbHelper.insertBooking(carName ?: "",
-                    days, "₹ $totalPrice", userId, bookingTime, 0,0.0,startdate10,enddate10)
+                    days, "₹ $totalPrice", userId, bookingTime, 0,0.0,startdate10,enddate10,addresses )
 
                 if (result != -1L) {
                     totalAmountTextView.text = "Total Amount: ₹ $totalPrice"

@@ -82,7 +82,15 @@
         android:background="@drawable/edittextdesign"
         android:hint="Days" />
 
-
+    <EditText
+        android:id="@+id/addressEditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:hint="Enter Address"
+        android:paddingLeft="20dp"
+        android:background="@drawable/edittextdesign"
+        android:inputType="textPostalAddress"/>
     <TextView
         android:id="@+id/total_amount"
         android:layout_width="wrap_content"

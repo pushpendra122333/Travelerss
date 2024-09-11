@@ -13,7 +13,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "users.db"
-        private const val DATABASE_VERSION = 8 // Increment version for schema update
+        private const val DATABASE_VERSION = 9 // Increment version for schema update
         private const val TABLE_USERS = "users"
         private const val TABLE_BOOKINGS = "bookings"
 
@@ -34,6 +34,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         const val COLUMN_RETURNED = "returned"
         private const val COLUMN_CANCELED = "canceled"
         private const val COLUMN_CANCELLATION_CHARGE = "cancellation_charge"
+        const val COLUMN_ADDRESS = "address"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -58,6 +59,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 + "$COLUMN_RETURNED INTEGER DEFAULT 0,"
                 + "$COLUMN_CANCELED INTEGER DEFAULT 0,"
                 + "$COLUMN_CANCELLATION_CHARGE REAL DEFAULT 0.0,"
+                + "$COLUMN_ADDRESS TEXT,"
                 + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)"
                 + ")")
 
@@ -68,7 +70,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         try {
-            if (oldVersion < 8) {
+            if (oldVersion < 9) {
                 db?.execSQL("ALTER TABLE $TABLE_USERS RENAME TO temp_users")
 
                 db?.execSQL("ALTER TABLE $TABLE_BOOKINGS ADD COLUMN $COLUMN_CANCELED INTEGER DEFAULT 0")
@@ -102,10 +104,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         + "$COLUMN_USER_ID INTEGER,"
                         + "$COLUMN_BOOKING_TIME TEXT,"
                         + "$COLUMN_RETURNED INTEGER DEFAULT 0,"
+                        + "$COLUMN_ADDRESS TEXT,"
                         + "FOREIGN KEY($COLUMN_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USER_ID)"
                         + ")")
                 db?.execSQL("ALTER TABLE $TABLE_BOOKINGS ADD COLUMN $COLUMN_START_DATE TEXT")
                 db?.execSQL("ALTER TABLE $TABLE_BOOKINGS ADD COLUMN $COLUMN_END_DATE TEXT")
+                db?.execSQL("ALTER TABLE $TABLE_BOOKINGS ADD COLUMN $COLUMN_ADDRESS TEXT")
             }
         } catch (e: Exception) {
             Log.e("DatabaseHelper", "Error during database upgrade", e)
@@ -172,7 +176,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         canceled: Int = 0, // Default to not canceled
         cancellationCharge: Double = 0.0,
         startDate: String,
-        endDate: String
+        endDate: String,
+        address: String
     ): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
@@ -184,6 +189,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COLUMN_RETURNED, 0) // Initially not returned
             put(COLUMN_CANCELED, canceled)
             put(COLUMN_CANCELLATION_CHARGE, cancellationCharge)
+            put(COLUMN_ADDRESS, address)
             put(COLUMN_START_DATE, startDate) // Add start date
             put(COLUMN_END_DATE, endDate)
         }
@@ -218,7 +224,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 val cancellationCharge = cursor.getDouble(cursor.getColumnIndex(COLUMN_CANCELLATION_CHARGE))
                 val startdate = cursor.getString(cursor.getColumnIndex(COLUMN_START_DATE))
                 val enddate = cursor.getString(cursor.getColumnIndex(COLUMN_END_DATE))
-                bookings.add(Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge, startdate, enddate))
+                val useraddress = cursor.getString(cursor.getColumnIndex(COLUMN_ADDRESS))
+                bookings.add(Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge, startdate, enddate,useraddress))
             } while (cursor.moveToNext())
         } else {
             Log.d("DatabaseHelper", "No bookings found for user ID: $userId")
@@ -392,11 +399,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             val cancellationCharge = cursor.getDouble(cursor.getColumnIndex(COLUMN_CANCELLATION_CHARGE))
             val startdate = cursor.getString(cursor.getColumnIndex(COLUMN_START_DATE))
             val enddate = cursor.getString(cursor.getColumnIndex(COLUMN_END_DATE))
-
+            val useraddress = cursor.getString((cursor.getColumnIndex(COLUMN_ADDRESS)))
 
             Log.d("DatabaseHelper", "Total Amount: $totalAmount") // Debug line
 
-            Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge,startdate,enddate)
+            Booking(bookingId,vehicleName, days, totalAmount, bookingTime, returned, canceled, cancellationCharge,startdate,enddate,useraddress)
         } else {
             null
         }.also { cursor.close() }

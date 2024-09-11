@@ -26,6 +26,7 @@ class PaymentActivity : AppCompatActivity() {
     private var days: Int = 0
     private var userId: Int = 0
     private var bookingTime: String? = null
+    private var address:String?  = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,7 @@ class PaymentActivity : AppCompatActivity() {
         days = intent.getIntExtra("days", 0)
         userId = intent.getIntExtra("userId", 0)
         bookingTime = intent.getStringExtra("bookingTime")
+        address = intent.getStringExtra("address")
         upiButton.setOnClickListener {
             paymentMethod = "UPI"
             showUpiNumber()

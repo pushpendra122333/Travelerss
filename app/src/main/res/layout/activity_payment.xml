@@ -28,6 +28,8 @@
         android:textStyle="bold"
         android:layout_marginBottom="24dp" />
 
+
+
     <TextView
         android:id="@+id/payment_title"
         android:layout_width="wrap_content"
