@@ -107,6 +107,18 @@
         android:layout_marginTop="10dp"
         android:visibility="gone"
         android:text="Cancel" />
+            <TextView
+                android:id="@+id/orderdelete"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:fontFamily="@font/calibri"
+                android:background="@color/white"
+                android:textColor="#C32121"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="This Order Is Canceled"
+                android:visibility="gone"/>
 
     </LinearLayout>
 

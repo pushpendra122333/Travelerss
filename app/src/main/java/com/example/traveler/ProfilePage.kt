@@ -48,7 +48,6 @@ class ProfilePage : Fragment() {
         val nameTextView: TextView = view.findViewById(R.id.profilename)
         val aboutUs: TextView = view.findViewById(R.id.aboutus)
         val cotactUs: TextView = view.findViewById(R.id.Contactus)
-
         aboutUs.setOnClickListener{
             val  i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse("https://alike-jam-bee.notion.site/About-Us-5fddc493a6b145c18465edf12b6ff78d?pvs=4")
@@ -68,6 +67,32 @@ class ProfilePage : Fragment() {
         val logoutButton: TextView = view.findViewById(R.id.logoutButton)
         logoutButton.setOnClickListener {
             showLogoutConfirmationDialog()
+        }
+
+        profileImageView.setOnClickListener{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // For Android 13+ (API 33 and above), request READ_MEDIA_IMAGES permission
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openImagePicker()
+                } else {
+                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                }
+            } else {
+                // For older versions, use READ_EXTERNAL_STORAGE
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openImagePicker()
+                } else {
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
         }
 
         setupSocialMediaLinks(view)
@@ -187,8 +212,23 @@ class ProfilePage : Fragment() {
     private fun handleImageSelected(imageUri: Uri) {
         val localImagePath = saveImageToInternalStorage(imageUri)
         if (localImagePath != null) {
-            profileImageView.setImageURI(Uri.parse(localImagePath))
-            saveProfileImagePath(localImagePath) // Save the local path in SharedPreferences
+            val newUri = Uri.parse(localImagePath)
+
+            // Clear the image cache by setting a temporary placeholder image
+            profileImageView.setImageResource(R.drawable.loading)
+
+            // Post to ensure UI updates on the main thread
+            profileImageView.post {
+                // Use the new URI
+                profileImageView.setImageURI(newUri)
+
+                // Invalidate and request layout to force a redraw
+                profileImageView.invalidate()
+                profileImageView.requestLayout()
+            }
+
+            // Save the profile image path in SharedPreferences
+            saveProfileImagePath(localImagePath)
         } else {
             Log.e("ProfilePage", "Failed to save image to internal storage.")
         }

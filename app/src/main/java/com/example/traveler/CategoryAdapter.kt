@@ -46,7 +46,7 @@ class CategoryAdapter(
             textView.text = category
             imageView.setImageResource(imageRes)
 
-            if (isSelected) {
+           if (isSelected) {
                 itemView.setBackgroundColor(Color.LTGRAY)
                 textView.setTextColor(Color.BLUE)
                 itemView.animate().scaleX(1.05f).scaleY(1.05f).setDuration(200).start() // Scale up
@@ -56,5 +56,6 @@ class CategoryAdapter(
                 itemView.animate().scaleX(1f).scaleY(1f).setDuration(200).start() // Scale down
             }
         }
+
     }
 }

@@ -24,7 +24,7 @@ class OrderAdapter(private var bookingss: List<Booking>,
         val useraddress: TextView = itemView.findViewById(R.id.useraddress)
         val returnedStatus2: TextView = itemView.findViewById(R.id.returned_status1)
         val cancelButton: Button = itemView.findViewById(R.id.button_cancel)
-
+        val orderdelete: TextView= itemView.findViewById(R.id.orderdelete)
         init {
             cancelButton.setOnClickListener {
                 val Vaish = LayoutInflater.from(itemView.context).inflate(R.layout.cancel_dialogue, null)
@@ -79,9 +79,11 @@ class OrderAdapter(private var bookingss: List<Booking>,
         } else if (booking.canceled) {
             holder.returnedStatus2.text = "Canceled. Charge: ${booking.cancellationCharge}"
             holder.cancelButton.visibility = View.GONE
+            holder.orderdelete.visibility = View.VISIBLE
         } else {
             holder.returnedStatus2.text = "Not Returned"
             holder.cancelButton.visibility = View.VISIBLE
+            holder.orderdelete.visibility=View.GONE
         }
     }
     fun updateBookings(newBookings: List<Booking>) {

@@ -96,8 +96,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="3dp"
         android:layout_marginLeft="10dp"
         android:gravity="center"
         android:orientation="vertical">
@@ -111,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name: "
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:fontFamily="@font/calibri"
             android:textColor="@color/black"
             android:textSize="20dp"
@@ -126,11 +128,17 @@
         android:paddingLeft="5dp"
         android:textColor="@color/black"
         android:layout_marginLeft="3dp"
-        android:textSize="15dp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/divider"
+            android:layout_below="@+id/changeImageButton"
+            android:layout_marginTop="8dp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,7 +148,7 @@
             android:id="@+id/emailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:textColor="@color/black"
             android:fontFamily="@font/calibri"
             android:text="Email: "
@@ -151,12 +159,12 @@
             android:id="@+id/profileemail"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="3dp"
             android:paddingLeft="5dp"
             android:textColor="@color/black"
             android:fontFamily="@font/calibri"
             android:text="Pushp"
-            android:textSize="15dp"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         </LinearLayout>
@@ -204,10 +212,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:gravity=""
+        android:layout_marginLeft="5dp"
         android:fontFamily="@font/calibri"
         android:text="About Us"
-        android:textColor="@color/green"
-        android:textSize="20dp"
+        android:textColor="#3345A8"
+        android:textSize="30dp"
         android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
@@ -215,16 +224,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/ly5"
         android:layout_below="@+id/ly4"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/Contactus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Contact Us"
+            android:layout_marginLeft="5dp"
             android:fontFamily="@font/calibri"
-            android:textColor="@color/green"
-            android:textSize="20dp"
+            android:textColor="#3345A8"
+            android:textSize="30dp"
             android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
