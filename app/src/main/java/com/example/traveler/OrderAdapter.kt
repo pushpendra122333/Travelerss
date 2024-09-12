@@ -1,6 +1,7 @@
 package com.example.traveler
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,16 +25,24 @@ class OrderAdapter(private var bookingss: List<Booking>,
         val returnedStatus2: TextView = itemView.findViewById(R.id.returned_status1)
         val cancelButton: Button = itemView.findViewById(R.id.button_cancel)
 
-        fun setOnCancelClickListener(listener: (Int) -> Unit) {
-            onCancelClickListener = listener
-        }
-
         init {
             cancelButton.setOnClickListener {
-                val booking = bookingss[adapterPosition]
-                if (!booking.returned && !booking.canceled) {
-                    onCancelClickListener?.invoke(booking.bookingId)
+                val Vaish = LayoutInflater.from(itemView.context).inflate(R.layout.cancel_dialogue, null)
+                val  pushp = AlertDialog.Builder(itemView.context)
+                pushp.setView(Vaish)
+
+                pushp.setPositiveButton("Yes"){dialog,_ ->
+
+                    val booking = bookingss[adapterPosition]
+                    if (!booking.returned && !booking.canceled) {
+                        onCancelClickListener.invoke(booking.bookingId)
+                    }
+                    dialog.dismiss()
                 }
+                pushp.setNegativeButton("No"){ dialog,_->
+                    dialog.dismiss()
+                }
+                pushp.create().show()
             }
         }
     }

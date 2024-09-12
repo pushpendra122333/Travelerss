@@ -13,4 +13,8 @@
     <color name="colorPressed">#314095</color>
     <color name="colorFocused">#00FF00</color>
     <color name="colorDefault">#FFFFFF</color>
+    <color name="colorAccent">@color/white</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="backgroundColorYes">#D33131</color>
+    <color name="backgroundColorNo">@color/green</color>
 </resources>
