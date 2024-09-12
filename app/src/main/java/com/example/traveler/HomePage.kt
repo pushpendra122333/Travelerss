@@ -67,12 +67,32 @@ class HomePage : Fragment() {
         val carList = listOf(
             Car("Suzuki Swift Dzire", R.drawable.car1, 4, 2, 4, "₹ 3,000 / Per Day"),
             Car("Toyota Innova", R.drawable.carr2, 7, 2, 4, "₹ 5,000 / Per Day"),
-            Car("Maruti Baleno", R.drawable.baleno1, 5, 2, 4, "₹ 4,000 / Per Day"),
             Car("Maruti Brezza", R.drawable.brezza1, 5, 2, 4, "₹ 4,000 / Per Day"),
             Car("HayaBusa", R.drawable.hayabusa, 2, 0, 0, "₹ 2,000 / Per Day"),
             Car("Mercedes", R.drawable.mercedes, 20, 8, 2, "₹ 12,000 / Per Day"),
-            Car("Mercedes Mini Bus", R.drawable.mercedes2, 20, 8, 2, "₹ 10,000 / Per Day")
-
+            Car("Mercedes Mini Bus", R.drawable.mercedes2, 20, 8, 2, "₹ 10,000 / Per Day"),
+            Car("TVS Ntorq 125", R.drawable.tvs, 2, 0, 0, "₹ 1,000 / Per Day"),
+            Car("Yamaha Ray ZR 125 Fi Hybrid", R.drawable.yahama, 2, 0, 0, "₹ 1,100 / Per Day"),
+            Car("Suzuki Access 125", R.drawable.access125, 2, 0, 0, "₹ 800 / Per Day"),
+            Car("Suzuki Burgman Street", R.drawable.bugman, 2, 0, 0, "₹ 1,500 / Per Day"),
+            Car("Honda Activa 6G", R.drawable.blueactiva, 2, 0, 0, "₹ 600 / Per Day"),
+            Car("Yamaha Aerox 155", R.drawable.aerox, 2, 0, 0, "₹ 2,000 / Per Day"),
+            Car("OLA S1 Pro", R.drawable.olascooty, 2, 0, 0, "₹ 2,200 / Per Day"),
+            Car("Mahindra Suv", R.drawable.mahindra_suv, 10, 3, 5, "₹ 4,000 / Per Day"),
+            Car("Renault Kwid", R.drawable.renault_kwd, 6, 2, 4, "₹ 4,000 / Per Day"),
+            Car("Mahindra Thar", R.drawable.thar, 4, 2, 3, "₹ 4,000 / Per Day"),
+            Car("Mahindra Scorpio", R.drawable.mahindra_scorpio, 10, 2, 5, "₹ 4,000 / Per Day"),
+            Car("Royal Enfield Hunter 350", R.drawable.royal_hunter, 2, 0, 0, "₹ 2,500 / Per Day"),
+            Car("Hero Splendor Plus", R.drawable.splendor, 2, 0, 0, "₹ 500 / Per Day"),
+            Car("Yamaha R15 V4", R.drawable.yahama_r15, 2, 0, 0, "₹ 2,000 / Per Day"),
+            Car("Royal Enfield Meteor 350", R.drawable.royal_metero, 2, 0, 0, "₹ 2,800 / Per Day"),
+            Car("Honda Unicorn", R.drawable.honda_unicorn, 2, 0, 0, "₹ 700 / Per Day"),
+            Car("Kawasaki Ninja H2R", R.drawable.kawasaki_ninja, 2, 0, 0, "₹ 2,600 / Per Day"),
+            Car("Ford Transit", R.drawable.ford_minibus, 12, 4, 2, "₹ 8,000 / Per Day"),
+            Car("Volkswagen Caravelle", R.drawable.volksvagon_minibus, 9, 4, 2, "₹ 9,000 / Per Day"),
+            Car("Renault Master", R.drawable.renault_master, 8, 4, 2, "₹ 6,000 / Per Day"),
+            Car("Renault Trafic", R.drawable.renault_minibus, 10, 4, 2, "₹ 7,200 / Per Day"),
+            Car("Ford Tourneo Custom", R.drawable.ford_turneo, 8, 4, 4, "₹ 5,900 / Per Day")
 
         )
 

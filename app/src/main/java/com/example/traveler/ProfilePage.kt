@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import java.io.File
 
 class ProfilePage : Fragment() {
 
@@ -102,12 +103,7 @@ class ProfilePage : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri: Uri? = result.data?.data
                 if (imageUri != null) {
-                    profileImageView.setImageURI(imageUri)
-                    profileImageView.post {
-                        // Force the image to update
-                        profileImageView.setImageURI(imageUri)
-                    }
-                    saveProfileImageUri(imageUri)
+                    handleImageSelected(imageUri)
                 } else {
                     Log.e("ProfilePage", "No image URI returned.")
                 }
@@ -135,60 +131,78 @@ class ProfilePage : Fragment() {
         }
         imagePickerLauncher.launch(intent)
     }
-
-    private fun saveProfileImageUri(imageUri: Uri) {
-        val sharedPref = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString("profile_image_uri", imageUri.toString())
-            apply()
-        }
-    }
-
     private fun loadProfileImage() {
         val sharedPref = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
-        val savedImageUri = sharedPref.getString("profile_image_uri", null)
-        if (savedImageUri != null) {
-            val imageUri = Uri.parse(savedImageUri)
-
-            // Check if the URI is valid before setting it
-            if (isUriValid(imageUri)) {
-                profileImageView.setImageURI(imageUri)
-                profileImageView.post {
-                    // Force the image to update
-                    profileImageView.setImageURI(imageUri)
-                }
-            } else {
-                Log.e("ProfilePage", "Invalid or inaccessible image URI.")
-                profileImageView.setImageResource(R.drawable.loading) // Set default image on invalid URI
+        val savedImagePath = sharedPref.getString("profile_image_path", null)
+        if (savedImagePath != null) {
+            val imageUri = Uri.fromFile(File(savedImagePath))
+            profileImageView.setImageURI(imageUri)
+            profileImageView.post {
+                profileImageView.setImageURI(imageUri) // Force update
             }
         } else {
-            // Set default image if no URI is saved
-            profileImageView.setImageResource(R.drawable.loading)
+            profileImageView.setImageResource(R.drawable.loading) // Set default image if no path is saved
         }
     }
 
-    // Function to validate if the URI is accessible
-    private fun isUriValid(uri: Uri): Boolean {
-        return try {
-            val contentResolver = requireActivity().contentResolver
-            val cursor = contentResolver.query(uri, null, null, null, null)
-            cursor?.use {
-                return it.moveToFirst()
-            } ?: false
-        } catch (e: Exception) {
-            Log.e("ProfilePage", "Error checking URI: ${e.message}")
-            false
-        }
-    }
 
     private fun clearProfileImage() {
         profileImageView.setImageResource(R.drawable.loading) // Clear the image and set a default one
+
         val sharedPref = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
+        val savedImagePath = sharedPref.getString("profile_image_path", null)
+        if (savedImagePath != null) {
+            val imageFile = File(savedImagePath)
+            if (imageFile.exists()) {
+                if (imageFile.delete()) {
+                    Log.d("ProfilePage", "Profile image deleted successfully.")
+                } else {
+                    Log.e("ProfilePage", "Failed to delete the profile image.")
+                }
+            }
+        }
+
+        // Clear the saved image path from SharedPreferences
         with(sharedPref.edit()) {
-            remove("profile_image_uri")
+            remove("profile_image_path")
             apply()
         }
     }
+
+    private fun saveImageToInternalStorage(imageUri: Uri): String? {
+        try {
+            val inputStream = requireActivity().contentResolver.openInputStream(imageUri)
+            inputStream?.use {
+                val file = File(requireActivity().filesDir, "profile_image.jpg")
+                file.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+                return file.absolutePath // Return the local path of the image
+            }
+        } catch (e: Exception) {
+            Log.e("ProfilePage", "Error saving image: ${e.message}")
+        }
+        return null
+    }
+    private fun handleImageSelected(imageUri: Uri) {
+        val localImagePath = saveImageToInternalStorage(imageUri)
+        if (localImagePath != null) {
+            profileImageView.setImageURI(Uri.parse(localImagePath))
+            saveProfileImagePath(localImagePath) // Save the local path in SharedPreferences
+        } else {
+            Log.e("ProfilePage", "Failed to save image to internal storage.")
+        }
+    }
+
+    private fun saveProfileImagePath(imagePath: String) {
+        val sharedPref = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("profile_image_path", imagePath)
+            apply()
+        }
+    }
+
+
 
     private fun setupSocialMediaLinks(view: View) {
         val instaImageView: ImageView = view.findViewById(R.id.insta)

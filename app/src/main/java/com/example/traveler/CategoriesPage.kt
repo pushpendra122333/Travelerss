@@ -38,8 +38,8 @@ class CategoriesPage : Fragment() {
         recyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
 
         // Define the categories
-        val categories = listOf("Bike", "Car", "Minibus")
-        val images = listOf(R.drawable.catbike, R.drawable.catcar, R.drawable.catmini)
+        val categories = listOf("Bike","Scooty", "Car", "Minibus")
+        val images = listOf(R.drawable.catbike,R.drawable.scootyy, R.drawable.catcar, R.drawable.catmini)
 
         // Set up the adapter and handle clicks
         categoryAdapter = CategoryAdapter(categories , images) { category ->
