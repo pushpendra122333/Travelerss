@@ -53,8 +53,8 @@ class OrderAdapter(private var bookingss: List<Booking>,
         holder.days2.text = "Days: ${booking.days ?: 0}"
         holder.totalAmount2.text = "Total Amount: ${booking.totalAmount ?: "N/A"}"
         holder.bookingTime2.text = "Booking Time: ${booking.bookingTime ?: "N/A"}"
-        holder.startdates.text = "Start Date: ${booking.startdate ?: "N/A"}"
-        holder.enddates.text = "End Date: ${booking.enddate ?: "N/A"}"
+        holder.startdates.text = "Pick Up Date: ${booking.startdate ?: "N/A"}"
+        holder.enddates.text = "Return Date: ${booking.enddate ?: "N/A"}"
         holder.useraddress.text = "UserAddress: ${booking.useraddress ?: "N/A"}"
         holder.returnedStatus2.text = if (booking.returned) "Returned" else "Not Returned"
 

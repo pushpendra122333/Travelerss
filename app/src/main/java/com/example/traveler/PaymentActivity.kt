@@ -14,10 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 class PaymentActivity : AppCompatActivity() {
     private lateinit var carNameTextView: TextView
     private lateinit var totalAmountTextView: TextView
-    private lateinit var payButton: Button
-    private lateinit var upiButton: Button
-    private lateinit var qrButton: Button
-    private lateinit var codButton: Button
+    private lateinit var payButton: TextView
+    private lateinit var upiButton: TextView
+    private lateinit var qrButton: TextView
+    private lateinit var codButton: TextView
     private lateinit var qrCodeImage: ImageView
 
     private var paymentMethod: String? = null

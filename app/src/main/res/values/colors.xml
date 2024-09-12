@@ -6,7 +6,9 @@
     <color name="your_button_text_color">#FF0000</color>
     <color name="custom_menu_item_color">#FF5722</color>
     <color name="menu_item_text_color">#FBF8F8</color>
-    <color name="selected_tab_color">#5BA7E2</color> <!-- Orange for selected tab -->
+    <color name="selected_tab_color">#0D0D0D</color>
+    <color name="selected_tablayout_color">#FFD700</color>
+    <color name="selected_tabicon_color">#87ceeb</color>
     <color name="unselected_tab_color">@color/colorDefault</color> <!-- Grey for unselected tab -->
     <color name="colorPressed">#314095</color>
     <color name="colorFocused">#00FF00</color>

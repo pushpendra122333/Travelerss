@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".PaymentActivity">
-
-
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_gravity="center">
+    android:id="@+id/ply"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/car_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -25,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginBottom="24dp" />
 
@@ -36,30 +39,56 @@
         android:layout_height="wrap_content"
         android:text="Select Payment Method"
         android:textSize="20sp"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="60dp"/>
 
-    <Button
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_margin="16dp"
+    android:background="@drawable/paymentbackground">
+
+
+    <TextView
         android:id="@+id/upi_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pay with UPI"
+        android:textColor="@color/textview_color_states"
+        android:background="@drawable/textview_background"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
         android:padding="16dp"
         android:layout_marginBottom="16dp"/>
 
-    <Button
+    <TextView
         android:id="@+id/qr_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pay with QR Code"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/textview_color_states"
+        android:background="@drawable/textview_background"
         android:padding="16dp"
+        android:textSize="20dp"
         android:layout_marginBottom="16dp"/>
 
-    <Button
+    <TextView
         android:id="@+id/cod_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cash on Delivery"
+        android:textColor="@color/textview_color_states"
+        android:background="@drawable/textview_background"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:padding="16dp"
         android:layout_marginBottom="24dp"/>
 
@@ -78,16 +107,25 @@
         android:visibility="gone"
         android:layout_marginBottom="24dp"/>
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:padding="40dp"
+        android:orientation="vertical">
+    <TextView
         android:id="@+id/pay_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirm Payment"
         android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:background="?attr/colorPrimary"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textview_color_states"
+        android:background="@color/green"
+        android:gravity="center"
+        android:textSize="20dp"
         android:padding="16dp"/>
+    </LinearLayout>
+</LinearLayout>
 
 </LinearLayout>
 </ScrollView>

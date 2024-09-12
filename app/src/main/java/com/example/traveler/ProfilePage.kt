@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -71,17 +72,32 @@ class ProfilePage : Fragment() {
         setupSocialMediaLinks(view)
         val changeImageButton: TextView = view.findViewById(R.id.changeImageButton)
         changeImageButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                openImagePicker()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // For Android 13+ (API 33 and above), request READ_MEDIA_IMAGES permission
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openImagePicker()
+                } else {
+                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                }
             } else {
-                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                // For older versions, use READ_EXTERNAL_STORAGE
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openImagePicker()
+                } else {
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
             }
         }
 
+        // Initialize the image picker launcher
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri: Uri? = result.data?.data
@@ -100,6 +116,7 @@ class ProfilePage : Fragment() {
             }
         }
 
+        // Initialize permission launcher to request storage permission
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) {
                 openImagePicker()
@@ -108,6 +125,7 @@ class ProfilePage : Fragment() {
             }
         }
 
+        // Load previously saved profile image
         loadProfileImage()
     }
 

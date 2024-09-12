@@ -33,7 +33,7 @@ class WelcomePage : AppCompatActivity() {
         tabLayout.apply {
             tabIconTint = tabIconColor
             setTabTextColors(tabTextColor)
-            setSelectedTabIndicatorColor(ContextCompat.getColor(this@WelcomePage, R.color.selected_tab_color))
+            setSelectedTabIndicatorColor(ContextCompat.getColor(this@WelcomePage, R.color.selected_tablayout_color))
         }
     }
     private fun setupTabIcons() {
@@ -63,8 +63,8 @@ class WelcomePage : AppCompatActivity() {
         }
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.icon?.setTint(ContextCompat.getColor(this@WelcomePage, R.color.selected_tab_color))
-                tab?.view?.findViewById<TextView>(android.R.id.text1)?.setTextColor(ContextCompat.getColor(this@WelcomePage, R.color.selected_tab_color))
+                tab?.icon?.setTint(ContextCompat.getColor(this@WelcomePage, R.color.selected_tabicon_color))
+                tab?.view?.findViewById<TextView>(android.R.id.text1)?.setTextColor(ContextCompat.getColor(this@WelcomePage, R.color.selected_tabicon_color))
 
                 tab?.text = when (tab?.position) {
                     0 -> "Home"

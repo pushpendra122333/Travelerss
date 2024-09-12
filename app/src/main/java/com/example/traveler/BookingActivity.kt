@@ -168,10 +168,17 @@ class BookingActivity : AppCompatActivity() {
 
         if (daysBetween >= 0) {
             daysEditText.setText(daysBetween.toString())
+            updateTotalAmount(daysBetween)
         } else {
             Toast.makeText(this, "End date must be after start date.", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun updateTotalAmount(days: Int) {
+        val perDayPrice = car.price.removePrefix("₹ ").removeSuffix(" / Per Day").replace(",", "").toInt()
+        val totalPrice = days * perDayPrice
+        totalAmountTextView.text = "Total Amount: ₹ $totalPrice"
+    }
+
 
 
     @SuppressLint("SetTextI18n")
