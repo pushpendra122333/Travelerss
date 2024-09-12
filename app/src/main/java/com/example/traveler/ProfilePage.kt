@@ -187,8 +187,23 @@ class ProfilePage : Fragment() {
     private fun handleImageSelected(imageUri: Uri) {
         val localImagePath = saveImageToInternalStorage(imageUri)
         if (localImagePath != null) {
-            profileImageView.setImageURI(Uri.parse(localImagePath))
-            saveProfileImagePath(localImagePath) // Save the local path in SharedPreferences
+            val newUri = Uri.parse(localImagePath)
+
+            // Clear the image cache by setting a temporary placeholder image
+            profileImageView.setImageResource(R.drawable.loading)
+
+            // Post to ensure UI updates on the main thread
+            profileImageView.post {
+                // Use the new URI
+                profileImageView.setImageURI(newUri)
+
+                // Invalidate and request layout to force a redraw
+                profileImageView.invalidate()
+                profileImageView.requestLayout()
+            }
+
+            // Save the profile image path in SharedPreferences
+            saveProfileImagePath(localImagePath)
         } else {
             Log.e("ProfilePage", "Failed to save image to internal storage.")
         }
