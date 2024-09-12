@@ -148,13 +148,36 @@ class ProfilePage : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("UserProfile", Context.MODE_PRIVATE)
         val savedImageUri = sharedPref.getString("profile_image_uri", null)
         if (savedImageUri != null) {
-            profileImageView.setImageURI(Uri.parse(savedImageUri))
-            profileImageView.post {
-                // Force the image to update
-                profileImageView.setImageURI(Uri.parse(savedImageUri))
+            val imageUri = Uri.parse(savedImageUri)
+
+            // Check if the URI is valid before setting it
+            if (isUriValid(imageUri)) {
+                profileImageView.setImageURI(imageUri)
+                profileImageView.post {
+                    // Force the image to update
+                    profileImageView.setImageURI(imageUri)
+                }
+            } else {
+                Log.e("ProfilePage", "Invalid or inaccessible image URI.")
+                profileImageView.setImageResource(R.drawable.loading) // Set default image on invalid URI
             }
         } else {
-            profileImageView.setImageResource(R.drawable.loading) // Set a default image
+            // Set default image if no URI is saved
+            profileImageView.setImageResource(R.drawable.loading)
+        }
+    }
+
+    // Function to validate if the URI is accessible
+    private fun isUriValid(uri: Uri): Boolean {
+        return try {
+            val contentResolver = requireActivity().contentResolver
+            val cursor = contentResolver.query(uri, null, null, null, null)
+            cursor?.use {
+                return it.moveToFirst()
+            } ?: false
+        } catch (e: Exception) {
+            Log.e("ProfilePage", "Error checking URI: ${e.message}")
+            false
         }
     }
 
