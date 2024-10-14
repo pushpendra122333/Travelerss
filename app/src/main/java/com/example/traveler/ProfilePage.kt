@@ -267,7 +267,7 @@ class ProfilePage : Fragment() {
         }
     }
     private fun showLogoutConfirmationDialog() {
-        val builder = AlertDialog.Builder(requireContext(),R.style.CustomAlertDialogTheme)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Logout")
         builder.setMessage("Are you sure you want to log out?")
         builder.setPositiveButton("Yes") { dialog, _ ->

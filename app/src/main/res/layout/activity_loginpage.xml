@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
-        android:fontFamily="@font/mate"
+        android:fontFamily="@font/merianda"
         android:text="Hello,\nLogin Please"
         android:textColor="@color/black"
         android:textSize="30dp"
